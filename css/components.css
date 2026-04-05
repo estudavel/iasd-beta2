@@ -1,0 +1,946 @@
+/* ============================================================
+   COMPONENTES GLASSMORPHISM PREMIUM - IASD 2024
+   ============================================================ */
+
+/* ============================================================
+   1. NOTIFICAÇÕES (TOAST) GLASS
+   ============================================================ */
+
+.notification {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    max-width: 400px;
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-radius: var(--radius-md);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    z-index: var(--z-toast);
+    animation: slideInRight 0.3s ease;
+    border: 1px solid;
+    box-shadow: var(--glass-shadow-strong);
+}
+
+.notification-success {
+    background: rgba(var(--color-success-rgb), 0.9);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.notification-error {
+    background: rgba(var(--color-danger-rgb), 0.9);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.notification-warning {
+    background: rgba(var(--color-warning-rgb), 0.9);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: #1F2937;
+}
+
+.notification-info {
+    background: rgba(var(--iasd-primary-rgb), 0.9);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.notification-icon {
+    font-size: var(--font-size-lg);
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.notification-message {
+    flex: 1;
+    font-size: var(--font-size-sm);
+}
+
+.notification-close {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    font-size: var(--font-size-lg);
+    cursor: pointer;
+    padding: var(--spacing-xs);
+    border-radius: var(--radius-sm);
+    color: inherit;
+    transition: background var(--transition-fast);
+}
+
+.notification-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* ============================================================
+   2. CARDS DE PEDIDOS DE ORAÇÃO - GLASS PREMIUM
+   ============================================================ */
+
+.oracao-card {
+    background: var(--bg-card);
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    margin-bottom: var(--spacing-lg);
+    box-shadow: var(--glass-shadow);
+    transition: all var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+}
+
+.oracao-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(180deg, var(--iasd-primary), var(--iasd-accent));
+    opacity: 0.8;
+}
+
+.oracao-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-lg);
+    padding: 1px;
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.3), 
+        rgba(255, 255, 255, 0.05));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0.5;
+    transition: opacity var(--transition-normal);
+}
+
+.oracao-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--glass-shadow-strong);
+}
+
+.oracao-card:hover::after {
+    opacity: 1;
+}
+
+.oracao-card.anonimo::before {
+    background: linear-gradient(180deg, var(--iasd-accent), #B8941F);
+}
+
+.oracao-card.privado::before {
+    background: linear-gradient(180deg, var(--color-danger), #DC2626);
+}
+
+.oracao-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--spacing-md);
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+}
+
+.oracao-titulo {
+    font-size: var(--font-size-lg);
+    color: var(--text-primary);
+    margin: 0;
+    font-weight: 600;
+}
+
+.oracao-meta {
+    display: flex;
+    gap: var(--spacing-sm);
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.oracao-autor {
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.oracao-data {
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.oracao-conteudo {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-lg);
+    line-height: 1.7;
+}
+
+.oracao-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--border-light);
+}
+
+.oracao-contador {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+    background: var(--bg-glass);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-full);
+    backdrop-filter: blur(5px);
+}
+
+.oracao-contador strong {
+    color: var(--iasd-primary);
+    font-size: var(--font-size-sm);
+}
+
+.btn-orar {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    color: var(--iasd-primary);
+    background: var(--bg-glass-strong);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    backdrop-filter: blur(5px);
+    transition: all var(--transition-fast);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-orar:hover {
+    background: linear-gradient(135deg, var(--iasd-primary), var(--iasd-secondary));
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-orar.orado {
+    background: linear-gradient(135deg, var(--color-success), #059669);
+    border-color: transparent;
+    color: white;
+}
+
+/* ============================================================
+   3. CARDS DE AGENDAMENTO - GLASS
+   ============================================================ */
+
+.agendamento-card {
+    background: var(--bg-card);
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
+    box-shadow: var(--glass-shadow);
+    transition: all var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+}
+
+.agendamento-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    transition: background var(--transition-normal);
+}
+
+.agendamento-card.pendente::before {
+    background: linear-gradient(180deg, var(--color-warning), #D97706);
+}
+
+.agendamento-card.confirmado::before {
+    background: linear-gradient(180deg, var(--color-success), #059669);
+}
+
+.agendamento-card.cancelado::before {
+    background: linear-gradient(180deg, var(--color-danger), #DC2626);
+}
+
+.agendamento-card.concluido::before {
+    background: linear-gradient(180deg, var(--iasd-accent), #B8941F);
+}
+
+.agendamento-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+}
+
+.agendamento-data {
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+}
+
+.agendamento-detalhes {
+    display: grid;
+    gap: var(--spacing-sm);
+}
+
+.agendamento-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+}
+
+.agendamento-item i {
+    color: var(--iasd-primary);
+    width: 20px;
+}
+
+/* ============================================================
+   4. CARDS DE LÍDERES - GLASS
+   ============================================================ */
+
+.lider-card {
+    background: var(--bg-card);
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    text-align: center;
+    box-shadow: var(--glass-shadow);
+    transition: all var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+}
+
+.lider-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--iasd-primary), var(--iasd-accent));
+    opacity: 0;
+    transition: opacity var(--transition-normal);
+}
+
+.lider-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-lg);
+    padding: 1px;
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.3), 
+        rgba(255, 255, 255, 0.05));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0.5;
+}
+
+.lider-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--glass-shadow-strong);
+}
+
+.lider-card:hover::before {
+    opacity: 1;
+}
+
+.lider-card:hover::after {
+    opacity: 1;
+}
+
+.lider-foto {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: var(--spacing-md);
+    border: 3px solid transparent;
+    background: linear-gradient(var(--bg-tertiary), var(--bg-tertiary)) padding-box,
+                linear-gradient(135deg, var(--iasd-primary), var(--iasd-accent)) border-box;
+    box-shadow: var(--shadow-md);
+}
+
+.lider-nome {
+    font-size: var(--font-size-base);
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-xs);
+    font-weight: 600;
+}
+
+.lider-cargo {
+    font-size: var(--font-size-xs);
+    color: var(--iasd-primary);
+    font-weight: 600;
+    margin-bottom: var(--spacing-sm);
+}
+
+.lider-descricao {
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+    margin-bottom: var(--spacing-md);
+}
+
+.lider-contato {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.lider-contato a {
+    font-size: var(--font-size-xs);
+    color: var(--iasd-primary);
+    padding: var(--spacing-xs);
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast);
+}
+
+.lider-contato a:hover {
+    background: var(--bg-glass);
+    text-decoration: none;
+}
+
+/* ============================================================
+   5. FEATURE CARDS - GLASS
+   ============================================================ */
+
+.feature-card {
+    background: var(--bg-card);
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    text-align: center;
+    box-shadow: var(--glass-shadow);
+    transition: all var(--transition-normal);
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.feature-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-lg);
+    padding: 1px;
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.3), 
+        rgba(255, 255, 255, 0.05));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0.5;
+    transition: opacity var(--transition-normal);
+}
+
+.feature-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--glass-shadow-strong);
+}
+
+.feature-card:hover::after {
+    opacity: 1;
+}
+
+.feature-icon {
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(135deg, 
+        rgba(var(--iasd-primary-rgb), 0.9), 
+        rgba(var(--iasd-secondary-rgb), 0.9));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto var(--spacing-lg);
+    font-size: var(--font-size-xl);
+    color: white;
+    box-shadow: 0 8px 20px rgba(var(--iasd-primary-rgb), 0.3);
+    position: relative;
+    z-index: 1;
+}
+
+.feature-title {
+    font-size: var(--font-size-base);
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-sm);
+    font-weight: 600;
+    position: relative;
+    z-index: 1;
+}
+
+.feature-description {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+    margin-bottom: var(--spacing-lg);
+    position: relative;
+    z-index: 1;
+}
+
+/* ============================================================
+   6. TIMELINE - GLASS
+   ============================================================ */
+
+.timeline {
+    position: relative;
+    padding-left: 28px;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, var(--iasd-primary), var(--iasd-accent));
+    border-radius: var(--radius-full);
+}
+
+.timeline-item {
+    position: relative;
+    padding-bottom: var(--spacing-xl);
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -24px;
+    top: 4px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--bg-tertiary);
+    border: 2px solid var(--iasd-primary);
+    box-shadow: 0 0 0 3px rgba(var(--iasd-primary-rgb), 0.1);
+    transition: all var(--transition-fast);
+}
+
+.timeline-item.active::before {
+    background: var(--iasd-primary);
+    box-shadow: 0 0 0 4px rgba(var(--iasd-primary-rgb), 0.2);
+}
+
+.timeline-content {
+    background: var(--bg-card);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--border-light);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-md);
+    box-shadow: var(--glass-shadow);
+}
+
+.timeline-date {
+    font-size: var(--font-size-xs);
+    color: var(--iasd-primary);
+    font-weight: 600;
+    margin-bottom: var(--spacing-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.timeline-title {
+    font-size: var(--font-size-base);
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-xs);
+    font-weight: 600;
+}
+
+.timeline-description {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+}
+
+/* ============================================================
+   7. ESTADOS VAZIOS - GLASS
+   ============================================================ */
+
+.empty-state {
+    text-align: center;
+    padding: var(--spacing-2xl);
+    background: var(--bg-card);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--glass-shadow);
+}
+
+.empty-state-icon {
+    font-size: 3rem;
+    margin-bottom: var(--spacing-lg);
+    opacity: 0.6;
+}
+
+.empty-state-title {
+    font-size: var(--font-size-xl);
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-sm);
+    font-weight: 600;
+}
+
+.empty-state-description {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+    margin-bottom: var(--spacing-lg);
+}
+
+/* ============================================================
+   8. SPINNER DE LOADING
+   ============================================================ */
+
+.spinner {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    border: 3px solid rgba(var(--iasd-primary-rgb), 0.1);
+    border-top-color: var(--iasd-primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.spinner-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-xl);
+    gap: var(--spacing-md);
+}
+
+.spinner-text {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+}
+
+/* ============================================================
+   9. TABS/ABAS - GLASS
+   ============================================================ */
+
+.tabs {
+    display: flex;
+    gap: var(--spacing-xs);
+    border-bottom: 2px solid var(--border-light);
+    margin-bottom: var(--spacing-lg);
+    flex-wrap: wrap;
+}
+
+.tab {
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--text-muted);
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    margin-bottom: -2px;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    position: relative;
+}
+
+.tab:hover {
+    color: var(--iasd-primary);
+    background: var(--bg-glass);
+}
+
+.tab.active {
+    color: var(--iasd-primary);
+    border-bottom-color: var(--iasd-primary);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+/* ============================================================
+   10. PAGINAÇÃO - GLASS
+   ============================================================ */
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--spacing-xs);
+    margin-top: var(--spacing-xl);
+    flex-wrap: wrap;
+}
+
+.pagination-btn {
+    min-width: 40px;
+    min-height: 40px;
+    padding: var(--spacing-sm);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--text-secondary);
+    background: var(--bg-glass);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    backdrop-filter: blur(5px);
+    transition: all var(--transition-fast);
+    box-shadow: var(--shadow-sm);
+}
+
+.pagination-btn:hover {
+    background: var(--bg-glass-strong);
+    border-color: rgba(var(--iasd-primary-rgb), 0.3);
+    transform: translateY(-2px);
+}
+
+.pagination-btn.active {
+    background: linear-gradient(135deg, var(--iasd-primary), var(--iasd-secondary));
+    border-color: transparent;
+    color: white;
+    box-shadow: var(--shadow-md);
+}
+
+.pagination-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* ============================================================
+   11. ACCORDION - GLASS
+   ============================================================ */
+
+.accordion {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--bg-card);
+    backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--border-light);
+    box-shadow: var(--glass-shadow);
+}
+
+.accordion-item {
+    border-bottom: 1px solid var(--border-light);
+}
+
+.accordion-item:last-child {
+    border-bottom: none;
+}
+
+.accordion-header {
+    width: 100%;
+    padding: var(--spacing-lg);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    color: var(--text-primary);
+    background: transparent;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all var(--transition-fast);
+}
+
+.accordion-header:hover {
+    background: var(--bg-glass);
+}
+
+.accordion-header::after {
+    content: '+';
+    font-size: var(--font-size-xl);
+    color: var(--iasd-primary);
+    transition: all var(--transition-fast);
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-glass);
+    border-radius: 50%;
+}
+
+.accordion-item.active .accordion-header::after {
+    transform: rotate(45deg);
+    background: var(--iasd-primary);
+    color: white;
+}
+
+.accordion-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height var(--transition-normal);
+}
+
+.accordion-item.active .accordion-body {
+    max-height: 500px;
+}
+
+.accordion-content {
+    padding: 0 var(--spacing-lg) var(--spacing-lg);
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+}
+
+/* ============================================================
+   12. STATUS BADGES
+   ============================================================ */
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0.3rem 0.7rem;
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    border-radius: var(--radius-full);
+    backdrop-filter: blur(5px);
+}
+
+.status-badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+}
+
+.status-pendente {
+    background: rgba(var(--color-warning-rgb), 0.15);
+    color: #92400E;
+    border: 1px solid rgba(var(--color-warning-rgb), 0.2);
+}
+
+[data-theme="dark"] .status-pendente {
+    color: #FBBF24;
+}
+
+.status-pendente::before {
+    background: var(--color-warning);
+}
+
+.status-aprovado,
+.status-confirmado,
+.status-ativo {
+    background: rgba(var(--color-success-rgb), 0.15);
+    color: #065F46;
+    border: 1px solid rgba(var(--color-success-rgb), 0.2);
+}
+
+[data-theme="dark"] .status-aprovado,
+[data-theme="dark"] .status-confirmado,
+[data-theme="dark"] .status-ativo {
+    color: #34D399;
+}
+
+.status-aprovado::before,
+.status-confirmado::before,
+.status-ativo::before {
+    background: var(--color-success);
+}
+
+.status-rejeitado,
+.status-cancelado {
+    background: rgba(var(--color-danger-rgb), 0.15);
+    color: #991B1B;
+    border: 1px solid rgba(var(--color-danger-rgb), 0.2);
+}
+
+[data-theme="dark"] .status-rejeitado,
+[data-theme="dark"] .status-cancelado {
+    color: #F87171;
+}
+
+.status-rejeitado::before,
+.status-cancelado::before {
+    background: var(--color-danger);
+}
+
+/* ============================================================
+   13. GRUPO DE BOTÕES
+   ============================================================ */
+
+.btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+}
+
+.btn-group .btn {
+    flex: 1;
+    min-width: fit-content;
+}
+
+/* ============================================================
+   14. DIVIDER
+   ============================================================ */
+
+.divider {
+    height: 1px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(var(--iasd-primary-rgb), 0.2), 
+        transparent);
+    margin: var(--spacing-xl) 0;
+}
+
+/* ============================================================
+   15. CHIPS/TAGS
+   ============================================================ */
+
+.chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0.25rem 0.6rem;
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+    color: var(--iasd-primary);
+    background: var(--bg-glass);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-full);
+    backdrop-filter: blur(5px);
+}
+
+.chip i {
+    font-size: 10px;
+}

@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Seja voluntário na IASD. Cadastre-se em áreas de saúde, ensino, música e mais. Idosos podem solicitar acompanhamento de saúde.">
+    <title>Voluntariado | Igreja Adventista do Sétimo Dia</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://static.wikia.nocookie.net/logopedia/images/7/72/IASD_%281997%29.png">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+</head>
+<body>
+    <!-- BOTÕES FLUTUANTES -->
+    <div class="floating-buttons">
+        <button class="floating-btn theme-toggle" id="themeToggle" onclick="toggleThemeManual()" data-tooltip="Alternar Tema">
+            <i class="fas fa-moon"></i>
+            <i class="fas fa-sun"></i>
+        </button>
+        <button class="floating-btn accessibility-toggle" id="accessibilityToggle" onclick="toggleAccessibility()" data-tooltip="Modo Acessibilidade">
+            <i class="fas fa-universal-access"></i>
+        </button>
+    </div>
+
+    <!-- NAVEGAÇÃO -->
+    <nav class="navbar" role="navigation" aria-label="Navegação principal">
+        <div class="navbar-container">
+            <a href="index.html" class="navbar-brand">
+                <img src="https://static.wikia.nocookie.net/logopedia/images/7/72/IASD_%281997%29.png" alt="IASD Logo" class="navbar-logo" style="height: 48px; width: auto;">
+                <div class="navbar-title">IASD<span>Igreja Adventista do Sétimo Dia</span></div>
+            </a>
+            
+            <button class="navbar-toggle" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+            
+            <ul class="navbar-nav" id="navbarNav">
+                <li><a href="index.html" class="nav-link">Início</a></li>
+                <li><a href="sobre.html" class="nav-link">Sobre</a></li>
+                <li><a href="voluntariado.html" class="nav-link">Voluntariado</a></li>
+                <li><a href="agendamento.html" class="nav-link">Estudos</a></li>
+                <li><a href="oracoes.html" class="nav-link">Orações</a></li>
+                <li><a href="contato.html" class="nav-link">Contato</a></li>
+                <li id="nav-login"><a href="login.html" class="nav-link"><i class="fas fa-sign-in-alt"></i> Entrar</a></li>
+                <li id="nav-user" style="display: none;">
+                    <a href="#" class="nav-link" onclick="signOut()"><i class="fas fa-sign-out-alt"></i> Sair</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header class="hero" style="padding: var(--spacing-xl) 0;">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <i class="fas fa-hands-helping"></i>
+                Voluntariado
+            </h1>
+            <p class="hero-subtitle">
+                Use seus talentos para servir à comunidade
+            </p>
+        </div>
+    </header>
+
+    <!-- TABS DE NAVEGAÇÃO -->
+    <section class="section section-alt" style="padding-bottom: 0;">
+        <div class="container">
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('areas')">
+                    <i class="fas fa-list"></i> Áreas de Atuação
+                </button>
+                <button class="tab" onclick="showTab('cadastro-voluntario')">
+                    <i class="fas fa-user-plus"></i> Ser Voluntário
+                </button>
+                <button class="tab" onclick="showTab('saude')">
+                    <i class="fas fa-heartbeat"></i> Saúde/Enfermagem
+                </button>
+                <button class="tab" onclick="showTab('acompanhamento')">
+                    <i class="fas fa-hand-holding-medical"></i> Solicitar Acompanhamento
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- TAB: ÁREAS DE ATUAÇÃO -->
+    <section id="tab-areas" class="section section-alt tab-content active">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Áreas de Voluntariado</h2>
+                <p class="section-subtitle">
+                    Escolha a área onde deseja servir
+                </p>
+            </div>
+            
+            <div class="grid grid-4" id="areas-container">
+                <!-- Áreas serão carregadas via JavaScript -->
+                <div class="spinner-container">
+                    <div class="spinner"></div>
+                    <p class="spinner-text">Carregando áreas...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TAB: CADASTRO DE VOLUNTÁRIO -->
+    <section id="tab-cadastro-voluntario" class="section section-alt tab-content">
+        <div class="container container-narrow">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <i class="fas fa-user-plus text-primary"></i>
+                        Cadastro de Voluntário
+                    </h2>
+                    <p class="card-subtitle">
+                        Preencha o formulário para se tornar um voluntário
+                    </p>
+                </div>
+                
+                <form id="form-voluntario" onsubmit="submitVoluntario(event)">
+                    <div class="form-group">
+                        <label class="form-label" for="voluntario-nome">
+                            Nome Completo <span class="required">*</span>
+                        </label>
+                        <input type="text" id="voluntario-nome" class="form-input" required 
+                               placeholder="Digite seu nome completo">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="voluntario-email">
+                            E-mail <span class="required">*</span>
+                        </label>
+                        <input type="email" id="voluntario-email" class="form-input" required 
+                               placeholder="seu@email.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="voluntario-telefone">
+                            Telefone <span class="required">*</span>
+                        </label>
+                        <input type="tel" id="voluntario-telefone" class="form-input" required 
+                               placeholder="(00) 00000-0000" maxlength="15"
+                               oninput="this.value = maskTelefone(this.value)">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="voluntario-area">
+                            Área de Interesse <span class="required">*</span>
+                        </label>
+                        <select id="voluntario-area" class="form-select" required onchange="toggleEnfermagemFields()">
+                            <option value="">Selecione uma área</option>
+                            <!-- Opções serão carregadas via JavaScript -->
+                        </select>
+                    </div>
+                    
+                    <!-- Campos específicos para Enfermagem -->
+                    <div id="enfermagem-fields" style="display: none;">
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle alert-icon"></i>
+                            <div>
+                                <strong>Área de Saúde/Enfermagem</strong><br>
+                                Por favor, forneça informações adicionais sobre sua formação.
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-check">
+                                <input type="checkbox" id="eh-estudante" class="form-check-input" 
+                                       onchange="toggleEstudanteFields()">
+                                <span class="form-check-label">
+                                    Sou estudante de enfermagem
+                                </span>
+                            </label>
+                        </div>
+                        
+                        <div id="estudante-fields" style="display: none;">
+                            <div class="form-group">
+                                <label class="form-label" for="instituicao">
+                                    Instituição de Ensino
+                                </label>
+                                <input type="text" id="instituicao" class="form-input" 
+                                       placeholder="Nome da faculdade/universidade">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label" for="matricula">
+                                    Número de Matrícula
+                                </label>
+                                <input type="text" id="matricula" class="form-input" 
+                                       placeholder="Sua matrícula">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label" for="periodo">
+                                    Período Atual
+                                </label>
+                                <select id="periodo" class="form-select">
+                                    <option value="">Selecione</option>
+                                    <option value="1">1º Período</option>
+                                    <option value="2">2º Período</option>
+                                    <option value="3">3º Período</option>
+                                    <option value="4">4º Período</option>
+                                    <option value="5">5º Período</option>
+                                    <option value="6">6º Período</option>
+                                    <option value="7">7º Período</option>
+                                    <option value="8">8º Período</option>
+                                    <option value="9">9º Período ou mais</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div id="profissional-fields">
+                            <div class="form-group">
+                                <label class="form-label" for="coren">
+                                    Registro COREN (se tiver)
+                                </label>
+                                <input type="text" id="coren" class="form-input" 
+                                       placeholder="Número do COREN">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">
+                            Dias Disponíveis
+                        </label>
+                        <div class="radio-group">
+                            <label class="form-check">
+                                <input type="checkbox" name="dias" value="segunda" class="form-check-input">
+                                <span class="form-check-label">Segunda-feira</span>
+                            </label>
+                            <label class="form-check">
+                                <input type="checkbox" name="dias" value="terca" class="form-check-input">
+                                <span class="form-check-label">Terça-feira</span>
+                            </label>
+                            <label class="form-check">
+                                <input type="checkbox" name="dias" value="quarta" class="form-check-input">
+                                <span class="form-check-label">Quarta-feira</span>
+                            </label>
+                            <label class="form-check">
+                                <input type="checkbox" name="dias" value="quinta" class="form-check-input">
+                                <span class="form-check-label">Quinta-feira</span>
+                            </label>
+                            <label class="form-check">
+                                <input type="checkbox" name="dias" value="sexta" class="form-check-input">
+                                <span class="form-check-label">Sexta-feira</span>
+                            </label>
+                            <label class="form-check">
+                                <input type="checkbox" name="dias" value="sabado" class="form-check-input">
+                                <span class="form-check-label">Sábado</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="turno">
+                            Turno Preferido
+                        </label>
+                        <select id="turno" class="form-select">
+                            <option value="flexivel">Flexível</option>
+                            <option value="manha">Manhã</option>
+                            <option value="tarde">Tarde</option>
+                            <option value="noite">Noite</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="observacoes">
+                            Observações
+                        </label>
+                        <textarea id="observacoes" class="form-textarea" rows="3"
+                                  placeholder="Informações adicionais que deseja compartilhar"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
+                        <i class="fas fa-paper-plane"></i>
+                        Enviar Cadastro
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- TAB: SAÚDE/ENFERMAGEM -->
+    <section id="tab-saude" class="section section-alt tab-content">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-heartbeat"></i>
+                    Voluntariado em Saúde
+                </h2>
+                <p class="section-subtitle">
+                    Estudantes de enfermagem atuando no cuidado da comunidade
+                </p>
+            </div>
+            
+            <div class="grid grid-2">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-hand-holding-medical text-primary"></i>
+                            Serviços Oferecidos
+                        </h3>
+                    </div>
+                    <ul style="list-style: none; font-size: var(--font-size-base);">
+                        <li style="padding: var(--spacing-sm) 0; border-bottom: 1px solid var(--iasd-light);">
+                            <i class="fas fa-check-circle text-success"></i>
+                            <strong>Medição de Pressão Arterial</strong>
+                            <p class="text-muted" style="margin: var(--spacing-xs) 0 0 var(--spacing-lg);">
+                                Acompanhamento regular da pressão arterial
+                            </p>
+                        </li>
+                        <li style="padding: var(--spacing-sm) 0; border-bottom: 1px solid var(--iasd-light);">
+                            <i class="fas fa-check-circle text-success"></i>
+                            <strong>Teste de Glicemia</strong>
+                            <p class="text-muted" style="margin: var(--spacing-xs) 0 0 var(--spacing-lg);">
+                                Monitoramento da glicose no sangue
+                            </p>
+                        </li>
+                        <li style="padding: var(--spacing-sm) 0; border-bottom: 1px solid var(--iasd-light);">
+                            <i class="fas fa-check-circle text-success"></i>
+                            <strong>Orientações de Saúde</strong>
+                            <p class="text-muted" style="margin: var(--spacing-xs) 0 0 var(--spacing-lg);">
+                                Dicas sobre alimentação, exercícios e hábitos saudáveis
+                            </p>
+                        </li>
+                        <li style="padding: var(--spacing-sm) 0;">
+                            <i class="fas fa-check-circle text-success"></i>
+                            <strong>Visitas Domiciliares</strong>
+                            <p class="text-muted" style="margin: var(--spacing-xs) 0 0 var(--spacing-lg);">
+                                Atendimento no conforto da casa do idoso
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-user-nurse text-primary"></i>
+                            Para Estudantes de Enfermagem
+                        </h3>
+                    </div>
+                    <p>
+                        Se você é estudante de enfermagem e deseja colocar em prática 
+                        seus conhecimentos enquanto serve à comunidade, esta é uma 
+                        oportunidade única!
+                    </p>
+                    <p>
+                        <strong>Benefícios:</strong>
+                    </p>
+                    <ul style="margin-left: var(--spacing-lg); margin-bottom: var(--spacing-lg);">
+                        <li>Experiência prática em cuidado ao idoso</li>
+                        <li>Horários flexíveis compatíveis com a faculdade</li>
+                        <li>Certificado de horas de voluntariado</li>
+                        <li>Supervisão de profissionais experientes</li>
+                        <li>Oportunidade de servir com amor</li>
+                    </ul>
+                    <button class="btn btn-primary btn-lg" onclick="showTab('cadastro-voluntario')">
+                        <i class="fas fa-user-plus"></i>
+                        Quero Ser Voluntário
+                    </button>
+                </div>
+            </div>
+            
+            <div class="card mt-lg">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fas fa-shield-alt text-primary"></i>
+                        Segurança e Privacidade
+                    </h3>
+                </div>
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle alert-icon"></i>
+                    <div>
+                        <strong>Proteção de Dados</strong><br>
+                        Todos os dados de saúde são protegidos e apenas voluntários 
+                        aprovados da área de saúde têm acesso. Os dados sensíveis 
+                        (endereço, condições médicas) são visíveis apenas para os 
+                        profissionais diretamente envolvidos no atendimento.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TAB: SOLICITAR ACOMPANHAMENTO -->
+    <section id="tab-acompanhamento" class="section section-alt tab-content">
+        <div class="container container-narrow">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <i class="fas fa-hand-holding-medical text-primary"></i>
+                        Solicitar Acompanhamento de Saúde
+                    </h2>
+                    <p class="card-subtitle">
+                        Para idosos que necessitam de acompanhamento de saúde
+                    </p>
+                </div>
+                
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-triangle alert-icon"></i>
+                    <div>
+                        <strong>Atenção</strong><br>
+                        Este serviço é destinado a idosos (60+ anos) que necessitam 
+                        de acompanhamento básico de saúde. Não substitui o atendimento 
+                        médico profissional. Em caso de emergência, procure o pronto-socorro.
+                    </div>
+                </div>
+                
+                <form id="form-acompanhamento" onsubmit="submitAcompanhamento(event)">
+                    <h3 style="color: var(--iasd-secondary); margin: var(--spacing-lg) 0 var(--spacing-md);">
+                        <i class="fas fa-user"></i> Dados do Idoso
+                    </h3>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="idoso-nome">
+                            Nome Completo <span class="required">*</span>
+                        </label>
+                        <input type="text" id="idoso-nome" class="form-input" required 
+                               placeholder="Nome completo do idoso">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="idoso-telefone">
+                            Telefone <span class="required">*</span>
+                        </label>
+                        <input type="tel" id="idoso-telefone" class="form-input" required 
+                               placeholder="(00) 00000-0000" maxlength="15"
+                               oninput="this.value = maskTelefone(this.value)">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="idoso-nascimento">
+                            Data de Nascimento <span class="required">*</span>
+                        </label>
+                        <input type="date" id="idoso-nascimento" class="form-input" required>
+                    </div>
+                    
+                    <h3 style="color: var(--iasd-secondary); margin: var(--spacing-lg) 0 var(--spacing-md);">
+                        <i class="fas fa-user-friends"></i> Responsável
+                    </h3>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="responsavel-nome">
+                            Nome do Responsável
+                        </label>
+                        <input type="text" id="responsavel-nome" class="form-input" 
+                               placeholder="Nome do responsável (se houver)">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="responsavel-telefone">
+                            Telefone do Responsável
+                        </label>
+                        <input type="tel" id="responsavel-telefone" class="form-input" 
+                               placeholder="(00) 00000-0000" maxlength="15"
+                               oninput="this.value = maskTelefone(this.value)">
+                    </div>
+                    
+                    <h3 style="color: var(--iasd-secondary); margin: var(--spacing-lg) 0 var(--spacing-md);">
+                        <i class="fas fa-map-marker-alt"></i> Endereço
+                    </h3>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="endereco">
+                            Endereço Completo <span class="required">*</span>
+                        </label>
+                        <textarea id="endereco" class="form-textarea" rows="2" required
+                                  placeholder="Rua, número, bairro, cidade, CEP"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="referencia">
+                            Ponto de Referência
+                        </label>
+                        <input type="text" id="referencia" class="form-input" 
+                               placeholder="Ex: Próximo à escola, casa azul, etc.">
+                    </div>
+                    
+                    <h3 style="color: var(--iasd-secondary); margin: var(--spacing-lg) 0 var(--spacing-md);">
+                        <i class="fas fa-heartbeat"></i> Necessidades de Saúde
+                    </h3>
+                    
+                    <div class="form-group">
+                        <label class="form-label">
+                            Serviços Necessários
+                        </label>
+                        <div class="radio-group">
+                            <label class="form-check">
+                                <input type="checkbox" id="necessita-pressao" class="form-check-input">
+                                <span class="form-check-label">
+                                    <i class="fas fa-stethoscope"></i> Acompanhamento de Pressão Arterial
+                                </span>
+                            </label>
+                            <label class="form-check">
+                                <input type="checkbox" id="necessita-glicemia" class="form-check-input">
+                                <span class="form-check-label">
+                                    <i class="fas fa-tint"></i> Monitoramento de Glicemia
+                                </span>
+                            </label>
+                            <label class="form-check">
+                                <input type="checkbox" id="necessita-outros" class="form-check-input">
+                                <span class="form-check-label">
+                                    <i class="fas fa-plus-circle"></i> Outros Serviços
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="outros-servicos">
+                            Especificar Outros Serviços
+                        </label>
+                        <textarea id="outros-servicos" class="form-textarea" rows="2"
+                                  placeholder="Descreva outros serviços necessários"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="condicoes">
+                            Condições Médicas Conhecidas
+                        </label>
+                        <textarea id="condicoes" class="form-textarea" rows="2"
+                                  placeholder="Hipertensão, diabetes, etc. (opcional)"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="medicamentos">
+                            Medicamentos em Uso
+                        </label>
+                        <textarea id="medicamentos" class="form-textarea" rows="2"
+                                  placeholder="Liste os medicamentos (opcional)"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="alergias">
+                            Alergias
+                        </label>
+                        <input type="text" id="alergias" class="form-input" 
+                               placeholder="Alergias conhecidas (opcional)">
+                    </div>
+                    
+                    <div class="alert alert-info">
+                        <i class="fas fa-lock alert-icon"></i>
+                        <div>
+                            <strong>Privacidade Garantida</strong><br>
+                            Seus dados de saúde e endereço são protegidos e apenas 
+                            os voluntários de saúde autorizados terão acesso.
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
+                        <i class="fas fa-paper-plane"></i>
+                        Solicitar Acompanhamento
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4><i class="fas fa-church"></i> IASD Local</h4>
+                    <p>
+                        Rua Exemplo, 123<br>
+                        Bairro - Cidade/UF<br>
+                        CEP: 00000-000
+                    </p>
+                    <p>
+                        <i class="fas fa-phone"></i> (11) 9999-9999<br>
+                        <i class="fas fa-envelope"></i> contato@iasdlocal.org
+                    </p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Links Rápidos</h4>
+                    <p><a href="index.html"><i class="fas fa-home"></i> Início</a></p>
+                    <p><a href="sobre.html"><i class="fas fa-info-circle"></i> Sobre</a></p>
+                    <p><a href="voluntariado.html"><i class="fas fa-hands-helping"></i> Voluntariado</a></p>
+                    <p><a href="contato.html"><i class="fas fa-envelope"></i> Contato</a></p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Serviços</h4>
+                    <p><a href="voluntariado.html#saude"><i class="fas fa-heartbeat"></i> Saúde</a></p>
+                    <p><a href="agendamento.html"><i class="fas fa-book-bible"></i> Estudos Bíblicos</a></p>
+                    <p><a href="oracoes.html"><i class="fas fa-praying-hands"></i> Mural de Orações</a></p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Redes Sociais</h4>
+                    <p>
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook fa-lg"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram fa-lg"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube fa-lg"></i></a>
+                        <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp fa-lg"></i></a>
+                    </p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Igreja Adventista do Sétimo Dia. Todos os direitos reservados.</p>
+                <p style="margin-top: var(--spacing-sm);">
+                    <i class="fas fa-graduation-cap"></i>
+                    Projeto de Extensão - Sistemas de Informação e Sociedade
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script src="js/supabase-client.js"></script>
+    <script>
+        // ============================================================
+        // MODO NOTURNO AUTOMÁTICO - RECIFE, PE
+        // ============================================================
+        
+        const RECIFE_LAT = -8.0476;
+        
+        function getSunTimes(date = new Date()) {
+            const dayOfYear = Math.floor((date - new Date(date.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
+            const declination = 23.45 * Math.sin((360 * (284 + dayOfYear) / 365) * Math.PI / 180);
+            const hourAngle = Math.acos(-Math.tan(RECIFE_LAT * Math.PI / 180) * Math.tan(declination * Math.PI / 180));
+            const sunriseUTC = 12 - (hourAngle * 180 / Math.PI) / 15;
+            const sunsetUTC = 12 + (hourAngle * 180 / Math.PI) / 15;
+            
+            const sunrise = new Date(date);
+            sunrise.setHours(sunriseUTC - 3, 0, 0, 0);
+            
+            const sunset = new Date(date);
+            sunset.setHours(sunsetUTC - 3, 0, 0, 0);
+            
+            return { sunrise, sunset };
+        }
+        
+        function isNightInRecife() {
+            const now = new Date();
+            const { sunrise, sunset } = getSunTimes(now);
+            const sunriseMargin = new Date(sunrise.getTime() - 30 * 60000);
+            const sunsetMargin = new Date(sunset.getTime() + 30 * 60000);
+            return now < sunriseMargin || now > sunsetMargin;
+        }
+        
+        function applyTheme(theme) {
+            if (theme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+            }
+        }
+        
+        function checkAutoTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const manualOverride = localStorage.getItem('themeManualOverride');
+            
+            if (!manualOverride || manualOverride === 'false') {
+                applyTheme(isNightInRecife() ? 'dark' : 'light');
+            } else {
+                applyTheme(savedTheme);
+            }
+        }
+        
+        function toggleThemeManual() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            applyTheme(newTheme);
+            localStorage.setItem('theme', newTheme);
+            localStorage.setItem('themeManualOverride', 'true');
+            showNotification(`Tema ${newTheme === 'dark' ? 'escuro' : 'claro'} ativado`, 'info');
+        }
+        
+        // ============================================================
+        // MODO ACESSIBILIDADE
+        // ============================================================
+        
+        function toggleAccessibility() {
+            const body = document.body;
+            const btn = document.getElementById('accessibilityToggle');
+            const isEnabled = body.classList.toggle('accessibility-mode');
+            
+            localStorage.setItem('accessibilityMode', isEnabled ? 'enabled' : 'disabled');
+            
+            if (isEnabled) {
+                btn.classList.add('active');
+                btn.setAttribute('data-tooltip', 'Desativar Acessibilidade');
+                showNotification('Modo de acessibilidade ativado!', 'success');
+            } else {
+                btn.classList.remove('active');
+                btn.setAttribute('data-tooltip', 'Ativar Acessibilidade');
+                showNotification('Modo de acessibilidade desativado.', 'info');
+            }
+        }
+        
+        // ============================================================
+        // UTILITÁRIOS
+        // ============================================================
+        
+        function toggleMenu() {
+            const nav = document.getElementById('navbarNav');
+            nav.classList.toggle('active');
+        }
+        
+        function showTab(tabId) {
+            // Esconder todas as tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Mostrar tab selecionada
+            document.getElementById('tab-' + tabId).classList.add('active');
+            event.target.closest('.tab').classList.add('active');
+        }
+        
+        function toggleEnfermagemFields() {
+            const areaSelect = document.getElementById('voluntario-area');
+            const enfermagemFields = document.getElementById('enfermagem-fields');
+            const areaNome = areaSelect.options[areaSelect.selectedIndex].text;
+            
+            if (areaNome.toLowerCase().includes('saúde') || areaNome.toLowerCase().includes('enfermagem')) {
+                enfermagemFields.style.display = 'block';
+            } else {
+                enfermagemFields.style.display = 'none';
+            }
+        }
+        
+        function toggleEstudanteFields() {
+            const ehEstudante = document.getElementById('eh-estudante').checked;
+            const estudanteFields = document.getElementById('estudante-fields');
+            const profissionalFields = document.getElementById('profissional-fields');
+            
+            if (ehEstudante) {
+                estudanteFields.style.display = 'block';
+                profissionalFields.style.display = 'none';
+            } else {
+                estudanteFields.style.display = 'none';
+                profissionalFields.style.display = 'block';
+            }
+        }
+        
+        // ============================================================
+        // INICIALIZAÇÃO
+        // ============================================================
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            // Tema
+            checkAutoTheme();
+            setInterval(checkAutoTheme, 60000);
+            
+            // Acessibilidade
+            if (localStorage.getItem('accessibilityMode') === 'enabled') {
+                document.body.classList.add('accessibility-mode');
+                document.getElementById('accessibilityToggle')?.classList.add('active');
+            }
+            
+            // Carregar áreas
+            carregarAreas();
+            
+            // Verificar autenticação
+            checkAuth();
+        });
+        
+        // ============================================================
+        // AUTENTICAÇÃO
+        // ============================================================
+        
+        async function checkAuth() {
+            const user = await getCurrentUser();
+            const loginLink = document.getElementById('nav-login');
+            const userLink = document.getElementById('nav-user');
+            
+            if (user && loginLink && userLink) {
+                loginLink.style.display = 'none';
+                userLink.style.display = 'block';
+            }
+        }
+        
+        // ============================================================
+        // VOLUNTARIADO
+        // ============================================================
+        
+        async function carregarAreas() {
+            const container = document.getElementById('areas-container');
+            const select = document.getElementById('voluntario-area');
+            
+            try {
+                const resultado = await getAreasVoluntariado();
+                
+                if (!resultado.success) {
+                    container.innerHTML = `
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle alert-icon"></i>
+                            <div>Áreas de voluntariado em breve disponíveis.</div>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                const areas = resultado.data || [];
+                
+                // Preencher cards
+                container.innerHTML = areas.map(area => `
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-${area.icone || 'hands-helping'}"></i>
+                        </div>
+                        <h3 class="feature-title">${area.nome}</h3>
+                        <p class="feature-description">${area.descricao}</p>
+                        <button class="btn btn-primary btn-sm" onclick="showTab('cadastro-voluntario')">
+                            Quero Participar
+                        </button>
+                    </div>
+                `).join('');
+                
+                // Preencher select
+                areas.forEach(area => {
+                    const option = document.createElement('option');
+                    option.value = area.id;
+                    option.textContent = area.nome;
+                    select.appendChild(option);
+                });
+                
+            } catch (error) {
+                console.error('Erro ao carregar áreas:', error);
+                container.innerHTML = `
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle alert-icon"></i>
+                        <div>Áreas de voluntariado em breve disponíveis.</div>
+                    </div>
+                `;
+            }
+        }
+        
+        async function submitVoluntario(event) {
+            event.preventDefault();
+            
+            const submitBtn = event.target.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="loading"></span> Enviando...';
+            
+            // Coletar dias disponíveis
+            const diasSelecionados = Array.from(document.querySelectorAll('input[name="dias"]:checked'))
+                .map(cb => cb.value);
+            
+            const voluntarioData = {
+                areaId: document.getElementById('voluntario-area').value,
+                ehEstudanteEnfermagem: document.getElementById('eh-estudante')?.checked || false,
+                instituicaoEnsino: document.getElementById('instituicao')?.value,
+                matricula: document.getElementById('matricula')?.value,
+                periodoAtual: document.getElementById('periodo')?.value,
+                registroCoren: document.getElementById('coren')?.value,
+                diasDisponiveis: diasSelecionados,
+                turnoPreferido: document.getElementById('turno').value,
+                observacoes: document.getElementById('observacoes').value
+            };
+            
+            try {
+                // Simular envio (substituir pela função real quando autenticado)
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                showNotification('Cadastro enviado com sucesso! Entraremos em contato em breve.', 'success');
+                event.target.reset();
+                
+            } catch (error) {
+                showNotification('Erro ao enviar cadastro. Tente novamente.', 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar Cadastro';
+            }
+        }
+        
+        async function submitAcompanhamento(event) {
+            event.preventDefault();
+            
+            const submitBtn = event.target.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="loading"></span> Enviando...';
+            
+            const idosoData = {
+                nomeResponsavel: document.getElementById('responsavel-nome').value,
+                telefoneResponsavel: document.getElementById('responsavel-telefone').value,
+                condicoesMedicas: document.getElementById('condicoes').value ? 
+                    document.getElementById('condicoes').value.split(',').map(s => s.trim()) : [],
+                medicamentos: document.getElementById('medicamentos').value,
+                alergias: document.getElementById('alergias').value,
+                necessitaPressao: document.getElementById('necessita-pressao').checked,
+                necessitaGlicemia: document.getElementById('necessita-glicemia').checked,
+                necessitaOutros: document.getElementById('necessita-outros').checked,
+                outrosServicos: document.getElementById('outros-servicos').value,
+                enderecoCompleto: document.getElementById('endereco').value,
+                pontoReferencia: document.getElementById('referencia').value
+            };
+            
+            try {
+                const resultado = await solicitarAcompanhamentoIdoso(idosoData);
+                
+                if (resultado.success) {
+                    showNotification('Solicitação enviada com sucesso! Entraremos em contato.', 'success');
+                    event.target.reset();
+                } else {
+                    throw new Error(resultado.error);
+                }
+            } catch (error) {
+                showNotification('Erro ao enviar solicitação. Tente novamente ou entre em contato.', 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Solicitar Acompanhamento';
+            }
+        }
+    </script>
+</body>
+</html>

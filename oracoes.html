@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Mural de Orações da IASD. Compartilhe seus pedidos de forma pública, anônima ou apenas com os líderes.">
+    <title>Mural de Orações | Igreja Adventista do Sétimo Dia</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="https://static.wikia.nocookie.net/logopedia/images/7/72/IASD_%281997%29.png">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+</head>
+<body>
+    <!-- BOTÕES FLUTUANTES -->
+    <div class="floating-buttons">
+        <button class="floating-btn theme-toggle" id="themeToggle" onclick="toggleThemeManual()" data-tooltip="Alternar Tema">
+            <i class="fas fa-moon"></i>
+            <i class="fas fa-sun"></i>
+        </button>
+        <button class="floating-btn accessibility-toggle" id="accessibilityToggle" onclick="toggleAccessibility()" data-tooltip="Modo Acessibilidade">
+            <i class="fas fa-universal-access"></i>
+        </button>
+    </div>
+
+    <nav class="navbar" role="navigation" aria-label="Navegação principal">
+        <div class="navbar-container">
+            <a href="index.html" class="navbar-brand">
+                <img src="https://static.wikia.nocookie.net/logopedia/images/7/72/IASD_%281997%29.png" alt="IASD Logo" class="navbar-logo" style="height: 48px; width: auto;">
+                <div class="navbar-title">IASD<span>Igreja Adventista do Sétimo Dia</span></div>
+            </a>
+            <button class="navbar-toggle" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+            <ul class="navbar-nav" id="navbarNav">
+                <li><a href="index.html" class="nav-link">Início</a></li>
+                <li><a href="sobre.html" class="nav-link">Sobre</a></li>
+                <li><a href="voluntariado.html" class="nav-link">Voluntariado</a></li>
+                <li><a href="agendamento.html" class="nav-link">Estudos</a></li>
+                <li><a href="oracoes.html" class="nav-link">Orações</a></li>
+                <li><a href="contato.html" class="nav-link">Contato</a></li>
+                <li id="nav-login"><a href="login.html" class="nav-link"><i class="fas fa-sign-in-alt"></i> Entrar</a></li>
+                <li id="nav-user" style="display: none;"><a href="#" class="nav-link" onclick="signOut()"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="hero" style="padding: var(--spacing-xl) 0;">
+        <div class="hero-content">
+            <h1 class="hero-title"><i class="fas fa-praying-hands"></i> Mural de Orações</h1>
+            <p class="hero-subtitle">Ore uns pelos outros. Compartilhe seus pedidos de oração.</p>
+        </div>
+    </header>
+
+    <section id="novo-pedido" class="section section-alt">
+        <div class="container container-narrow">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fas fa-plus-circle text-primary"></i> Novo Pedido de Oração</h2>
+                    <p class="card-subtitle">Compartilhe seu pedido de forma segura</p>
+                </div>
+                <form id="form-oracao" onsubmit="submitOracao(event)">
+                    <div class="form-group">
+                        <label class="form-label" for="oracao-titulo">Título <span class="required">*</span></label>
+                        <input type="text" id="oracao-titulo" class="form-input" required placeholder="Ex: Oração pela saúde da minha mãe" maxlength="200">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="oracao-conteudo">Seu Pedido <span class="required">*</span></label>
+                        <textarea id="oracao-conteudo" class="form-textarea" rows="4" required placeholder="Descreva seu pedido de oração..." maxlength="1000"></textarea>
+                        <p class="form-hint">Máximo 1000 caracteres</p>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="oracao-categoria">Categoria</label>
+                        <select id="oracao-categoria" class="form-select">
+                            <option value="geral">Geral</option>
+                            <option value="saude">Saúde</option>
+                            <option value="familia">Família</option>
+                            <option value="trabalho">Trabalho</option>
+                            <option value="financeiro">Financeiro</option>
+                            <option value="espiritual">Espiritual</option>
+                            <option value="outros">Outros</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Nível de Privacidade <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <label class="form-check" style="padding: var(--spacing-md); background: var(--iasd-light); border-radius: var(--border-radius-md);">
+                                <input type="radio" name="privacidade" value="publico" class="form-check-input" checked>
+                                <span class="form-check-label"><i class="fas fa-globe text-primary"></i> <strong>Público</strong> - Todos podem ver</span>
+                            </label>
+                            <label class="form-check" style="padding: var(--spacing-md); background: var(--iasd-light); border-radius: var(--border-radius-md);">
+                                <input type="radio" name="privacidade" value="anonimo" class="form-check-input">
+                                <span class="form-check-label"><i class="fas fa-user-secret text-accent"></i> <strong>Anônimo</strong> - Nome oculto</span>
+                            </label>
+                            <label class="form-check" style="padding: var(--spacing-md); background: var(--iasd-light); border-radius: var(--border-radius-md);">
+                                <input type="radio" name="privacidade" value="lideres" class="form-check-input">
+                                <span class="form-check-label"><i class="fas fa-user-shield text-secondary"></i> <strong>Apenas Líderes</strong></span>
+                            </label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
+                        <i class="fas fa-paper-plane"></i> Enviar Pedido de Oração
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title"><i class="fas fa-list"></i> Pedidos de Oração</h2>
+                <p class="section-subtitle">Ore por nossos irmãos e irmãs</p>
+            </div>
+            <div class="btn-group justify-center mb-lg">
+                <button class="btn btn-primary active" onclick="filtrarPedidos('todos')"><i class="fas fa-list"></i> Todos</button>
+                <button class="btn btn-secondary" onclick="filtrarPedidos('saude')"><i class="fas fa-heartbeat"></i> Saúde</button>
+                <button class="btn btn-secondary" onclick="filtrarPedidos('familia')"><i class="fas fa-users"></i> Família</button>
+            </div>
+            <div id="lista-pedidos">
+                <div class="spinner-container">
+                    <div class="spinner"></div>
+                    <p class="spinner-text">Carregando pedidos...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4><i class="fas fa-church"></i> IASD Local</h4>
+                    <p>Rua Exemplo, 123<br>Bairro - Cidade/UF<br>CEP: 00000-000</p>
+                    <p><i class="fas fa-phone"></i> (11) 9999-9999<br><i class="fas fa-envelope"></i> contato@iasdlocal.org</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Links Rápidos</h4>
+                    <p><a href="index.html"><i class="fas fa-home"></i> Início</a></p>
+                    <p><a href="sobre.html"><i class="fas fa-info-circle"></i> Sobre</a></p>
+                    <p><a href="voluntariado.html"><i class="fas fa-hands-helping"></i> Voluntariado</a></p>
+                    <p><a href="contato.html"><i class="fas fa-envelope"></i> Contato</a></p>
+                </div>
+                <div class="footer-section">
+                    <h4>Serviços</h4>
+                    <p><a href="voluntariado.html#saude"><i class="fas fa-heartbeat"></i> Saúde</a></p>
+                    <p><a href="agendamento.html"><i class="fas fa-book-bible"></i> Estudos Bíblicos</a></p>
+                    <p><a href="oracoes.html"><i class="fas fa-praying-hands"></i> Mural de Orações</a></p>
+                </div>
+                <div class="footer-section">
+                    <h4>Redes Sociais</h4>
+                    <p>
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook fa-lg"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram fa-lg"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube fa-lg"></i></a>
+                        <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp fa-lg"></i></a>
+                    </p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Igreja Adventista do Sétimo Dia. Todos os direitos reservados.</p>
+                <p style="margin-top: var(--spacing-sm);"><i class="fas fa-graduation-cap"></i> Projeto de Extensão - Sistemas de Informação e Sociedade</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/supabase-client.js"></script>
+    <script>
+        const RECIFE_LAT = -8.0476;
+        
+        function getSunTimes(date = new Date()) {
+            const dayOfYear = Math.floor((date - new Date(date.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
+            const declination = 23.45 * Math.sin((360 * (284 + dayOfYear) / 365) * Math.PI / 180);
+            const hourAngle = Math.acos(-Math.tan(RECIFE_LAT * Math.PI / 180) * Math.tan(declination * Math.PI / 180));
+            const sunriseUTC = 12 - (hourAngle * 180 / Math.PI) / 15;
+            const sunsetUTC = 12 + (hourAngle * 180 / Math.PI) / 15;
+            const sunrise = new Date(date);
+            sunrise.setHours(sunriseUTC - 3, 0, 0, 0);
+            const sunset = new Date(date);
+            sunset.setHours(sunsetUTC - 3, 0, 0, 0);
+            return { sunrise, sunset };
+        }
+        
+        function isNightInRecife() {
+            const now = new Date();
+            const { sunrise, sunset } = getSunTimes(now);
+            const sunriseMargin = new Date(sunrise.getTime() - 30 * 60000);
+            const sunsetMargin = new Date(sunset.getTime() + 30 * 60000);
+            return now < sunriseMargin || now > sunsetMargin;
+        }
+        
+        function applyTheme(theme) {
+            if (theme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+            }
+        }
+        
+        function checkAutoTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const manualOverride = localStorage.getItem('themeManualOverride');
+            if (!manualOverride || manualOverride === 'false') {
+                applyTheme(isNightInRecife() ? 'dark' : 'light');
+            } else {
+                applyTheme(savedTheme);
+            }
+        }
+        
+        function toggleThemeManual() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            applyTheme(newTheme);
+            localStorage.setItem('theme', newTheme);
+            localStorage.setItem('themeManualOverride', 'true');
+            showNotification(`Tema ${newTheme === 'dark' ? 'escuro' : 'claro'} ativado`, 'info');
+        }
+        
+        function toggleAccessibility() {
+            const body = document.body;
+            const btn = document.getElementById('accessibilityToggle');
+            const isEnabled = body.classList.toggle('accessibility-mode');
+            localStorage.setItem('accessibilityMode', isEnabled ? 'enabled' : 'disabled');
+            if (isEnabled) {
+                btn.classList.add('active');
+                btn.setAttribute('data-tooltip', 'Desativar Acessibilidade');
+                showNotification('Modo de acessibilidade ativado!', 'success');
+            } else {
+                btn.classList.remove('active');
+                btn.setAttribute('data-tooltip', 'Ativar Acessibilidade');
+                showNotification('Modo de acessibilidade desativado.', 'info');
+            }
+        }
+        
+        function toggleMenu() {
+            const nav = document.getElementById('navbarNav');
+            nav.classList.toggle('active');
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAutoTheme();
+            setInterval(checkAutoTheme, 60000);
+            if (localStorage.getItem('accessibilityMode') === 'enabled') {
+                document.body.classList.add('accessibility-mode');
+                document.getElementById('accessibilityToggle')?.classList.add('active');
+            }
+            carregarPedidos();
+            checkAuth();
+        });
+        
+        async function checkAuth() {
+            const user = await getCurrentUser();
+            const loginLink = document.getElementById('nav-login');
+            const userLink = document.getElementById('nav-user');
+            if (user && loginLink && userLink) {
+                loginLink.style.display = 'none';
+                userLink.style.display = 'block';
+            }
+        }
+        
+        async function submitOracao(event) {
+            event.preventDefault();
+            const submitBtn = event.target.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="loading"></span> Enviando...';
+            const oracaoData = {
+                titulo: document.getElementById('oracao-titulo').value,
+                conteudo: document.getElementById('oracao-conteudo').value,
+                categoria: document.getElementById('oracao-categoria').value,
+                nivelPrivacidade: document.querySelector('input[name="privacidade"]:checked').value
+            };
+            try {
+                const resultado = await enviarPedidoOracao(oracaoData);
+                if (resultado.success) {
+                    showNotification('Pedido de oração enviado com sucesso!', 'success');
+                    event.target.reset();
+                    carregarPedidos();
+                } else {
+                    throw new Error(resultado.error);
+                }
+            } catch (error) {
+                showNotification('Erro ao enviar pedido. Tente novamente.', 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar Pedido de Oração';
+            }
+        }
+        
+        async function carregarPedidos() {
+            const container = document.getElementById('lista-pedidos');
+            try {
+                const resultado = await getPedidosOracaoPublicos();
+                if (!resultado.success) {
+                    container.innerHTML = '<div class="alert alert-info"><i class="fas fa-info-circle alert-icon"></i><div>O mural estará disponível em breve.</div></div>';
+                    return;
+                }
+                const pedidos = resultado.data || [];
+                if (pedidos.length === 0) {
+                    container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🙏</div><h3 class="empty-state-title">Nenhum pedido ainda</h3><p class="empty-state-description">Seja o primeiro a compartilhar!</p></div>';
+                    return;
+                }
+                container.innerHTML = pedidos.map(pedido => `
+                    <div class="oracao-card ${pedido.nivel_privacidade}">
+                        <div class="oracao-header">
+                            <h3 class="oracao-titulo">${pedido.titulo}</h3>
+                            <div class="oracao-meta">
+                                <span class="badge badge-primary">${pedido.categoria}</span>
+                                <span class="oracao-autor"><i class="fas fa-user"></i> ${pedido.nome_exibicao || 'Membro'}</span>
+                                <span class="oracao-data"><i class="fas fa-calendar"></i> ${formatarData(pedido.created_at)}</span>
+                            </div>
+                        </div>
+                        <p class="oracao-conteudo">${pedido.conteudo}</p>
+                        <div class="oracao-footer">
+                            <div class="oracao-contador"><i class="fas fa-pray"></i> <strong>${pedido.contador_oracoes || 0}</strong> orando</div>
+                            <button class="btn-orar" onclick="orarPor('${pedido.id}', this)"><i class="fas fa-hands"></i> Eu Vou Orar</button>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                container.innerHTML = '<div class="alert alert-info"><i class="fas fa-info-circle alert-icon"></i><div>O mural estará disponível em breve.</div></div>';
+            }
+        }
+        
+        async function orarPor(pedidoId, btn) {
+            try {
+                const resultado = await registrarOracao(pedidoId);
+                if (resultado.success) {
+                    btn.classList.add('orado');
+                    btn.innerHTML = '<i class="fas fa-check"></i> Oração Registrada';
+                    btn.disabled = true;
+                    showNotification('Oração registrada! Obrigado por orar.', 'success');
+                }
+            } catch (error) {
+                showNotification('Faça login para registrar sua oração.', 'warning');
+            }
+        }
+        
+        function filtrarPedidos(categoria) {
+            document.querySelectorAll('.btn-group .btn').forEach(btn => {
+                btn.classList.remove('btn-primary', 'active');
+                btn.classList.add('btn-secondary');
+            });
+            event.target.closest('.btn').classList.remove('btn-secondary');
+            event.target.closest('.btn').classList.add('btn-primary', 'active');
+        }
+    </script>
+</body>
+</html>

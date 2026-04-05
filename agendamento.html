@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Agende seu estudo bíblico na IASD. Escolha data, horário e modalidade (presencial ou online).">
+    <title>Agendar Estudo Bíblico | Igreja Adventista do Sétimo Dia</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="https://static.wikia.nocookie.net/logopedia/images/7/72/IASD_%281997%29.png">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+</head>
+<body>
+    <!-- BOTÕES FLUTUANTES -->
+    <div class="floating-buttons">
+        <button class="floating-btn theme-toggle" id="themeToggle" onclick="toggleThemeManual()" data-tooltip="Alternar Tema">
+            <i class="fas fa-moon"></i>
+            <i class="fas fa-sun"></i>
+        </button>
+        <button class="floating-btn accessibility-toggle" id="accessibilityToggle" onclick="toggleAccessibility()" data-tooltip="Modo Acessibilidade">
+            <i class="fas fa-universal-access"></i>
+        </button>
+    </div>
+
+    <nav class="navbar" role="navigation" aria-label="Navegação principal">
+        <div class="navbar-container">
+            <a href="index.html" class="navbar-brand">
+                <img src="https://static.wikia.nocookie.net/logopedia/images/7/72/IASD_%281997%29.png" alt="IASD Logo" class="navbar-logo" style="height: 48px; width: auto;">
+                <div class="navbar-title">IASD<span>Igreja Adventista do Sétimo Dia</span></div>
+            </a>
+            <button class="navbar-toggle" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+            <ul class="navbar-nav" id="navbarNav">
+                <li><a href="index.html" class="nav-link">Início</a></li>
+                <li><a href="sobre.html" class="nav-link">Sobre</a></li>
+                <li><a href="voluntariado.html" class="nav-link">Voluntariado</a></li>
+                <li><a href="agendamento.html" class="nav-link">Estudos</a></li>
+                <li><a href="oracoes.html" class="nav-link">Orações</a></li>
+                <li><a href="contato.html" class="nav-link">Contato</a></li>
+                <li id="nav-login"><a href="login.html" class="nav-link"><i class="fas fa-sign-in-alt"></i> Entrar</a></li>
+                <li id="nav-user" style="display: none;"><a href="#" class="nav-link" onclick="signOut()"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="hero" style="padding: var(--spacing-xl) 0;">
+        <div class="hero-content">
+            <h1 class="hero-title"><i class="fas fa-book-bible"></i> Estudos Bíblicos</h1>
+            <p class="hero-subtitle">Agende seu estudo bíblico presencial ou online</p>
+        </div>
+    </header>
+
+    <section class="section section-alt">
+        <div class="container">
+            <div class="grid grid-2" style="gap: var(--spacing-2xl);">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title"><i class="fas fa-calendar-plus text-primary"></i> Novo Agendamento</h2>
+                        <p class="card-subtitle">Preencha os dados para agendar seu estudo</p>
+                    </div>
+                    <form id="form-agendamento" onsubmit="submitAgendamento(event)">
+                        <div class="form-group">
+                            <label class="form-label" for="agendamento-nome">Nome Completo <span class="required">*</span></label>
+                            <input type="text" id="agendamento-nome" class="form-input" required placeholder="Digite seu nome completo">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="agendamento-email">E-mail <span class="required">*</span></label>
+                            <input type="email" id="agendamento-email" class="form-input" required placeholder="seu@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="agendamento-telefone">Telefone <span class="required">*</span></label>
+                            <input type="tel" id="agendamento-telefone" class="form-input" required placeholder="(00) 00000-0000" maxlength="15" oninput="this.value = maskTelefone(this.value)">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="agendamento-data">Data Preferida <span class="required">*</span></label>
+                            <input type="date" id="agendamento-data" class="form-input" required>
+                            <p class="form-hint">Escolha uma data a partir de amanhã</p>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="agendamento-horario">Horário Preferido <span class="required">*</span></label>
+                            <input type="time" id="agendamento-horario" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Modalidade <span class="required">*</span></label>
+                            <div class="radio-group radio-group-horizontal">
+                                <label class="form-check">
+                                    <input type="radio" name="modalidade" value="presencial" class="form-check-input" checked onchange="toggleModalidadeFields()">
+                                    <span class="form-check-label"><i class="fas fa-user-friends"></i> Presencial</span>
+                                </label>
+                                <label class="form-check">
+                                    <input type="radio" name="modalidade" value="online" class="form-check-input" onchange="toggleModalidadeFields()">
+                                    <span class="form-check-label"><i class="fas fa-video"></i> Online</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div id="endereco-field" class="form-group">
+                            <label class="form-label" for="agendamento-endereco">Endereço para Visita <span class="required">*</span></label>
+                            <textarea id="agendamento-endereco" class="form-textarea" rows="2" placeholder="Rua, número, bairro, cidade, CEP"></textarea>
+                            <div class="alert alert-info mt-sm" style="padding: var(--spacing-sm);">
+                                <i class="fas fa-lock"></i>
+                                <small>Seu endereço é protegido e visível apenas para líderes autorizados.</small>
+                            </div>
+                        </div>
+                        <div id="link-field" class="form-group" style="display: none;">
+                            <label class="form-label" for="agendamento-link">Link da Reunião (opcional)</label>
+                            <input type="url" id="agendamento-link" class="form-input" placeholder="https://meet.google.com/...">
+                            <p class="form-hint">Se não informar, enviaremos o link após confirmar.</p>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="agendamento-tema">Tema de Interesse</label>
+                            <select id="agendamento-tema" class="form-select">
+                                <option value="">Selecione um tema (opcional)</option>
+                                <option value="profecias">Profecias Bíblicas</option>
+                                <option value="vida-jesus">Vida de Jesus</option>
+                                <option value="salvacao">Plano de Salvação</option>
+                                <option value="santuario">O Santuário</option>
+                                <option value="segunda-venida">Segunda Vinda de Cristo</option>
+                                <option value="sabado">O Sábado</option>
+                                <option value="batismo">Batismo</option>
+                                <option value="outro">Outro tema</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="agendamento-observacoes">Observações</label>
+                            <textarea id="agendamento-observacoes" class="form-textarea" rows="2" placeholder="Informações adicionais, dúvidas específicas, etc."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
+                            <i class="fas fa-calendar-check"></i> Confirmar Agendamento
+                        </button>
+                    </form>
+                </div>
+                
+                <div>
+                    <div class="card mb-lg">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fas fa-info-circle text-primary"></i> Como Funciona?</h3>
+                        </div>
+                        <div class="timeline">
+                            <div class="timeline-item active">
+                                <div class="timeline-content">
+                                    <div class="timeline-date">Passo 1</div>
+                                    <h4 class="timeline-title">Agende</h4>
+                                    <p class="timeline-description">Preencha o formulário com seus dados.</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item active">
+                                <div class="timeline-content">
+                                    <div class="timeline-date">Passo 2</div>
+                                    <h4 class="timeline-title">Confirmação</h4>
+                                    <p class="timeline-description">Entraremos em contato para confirmar.</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item active">
+                                <div class="timeline-content">
+                                    <div class="timeline-date">Passo 3</div>
+                                    <h4 class="timeline-title">Estudo</h4>
+                                    <p class="timeline-description">Um líder conduzirá seu estudo bíblico.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card" style="background: linear-gradient(135deg, var(--iasd-primary), var(--iasd-secondary)); color: white;">
+                        <div class="card-header">
+                            <h3 class="card-title" style="color: white;"><i class="fas fa-shield-alt"></i> Sua Privacidade</h3>
+                        </div>
+                        <p style="color: rgba(255,255,255,0.9);"><i class="fas fa-lock"></i> Seus dados são protegidos.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4><i class="fas fa-church"></i> IASD Local</h4>
+                    <p>Rua Exemplo, 123<br>Bairro - Cidade/UF<br>CEP: 00000-000</p>
+                    <p><i class="fas fa-phone"></i> (11) 9999-9999<br><i class="fas fa-envelope"></i> contato@iasdlocal.org</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Links Rápidos</h4>
+                    <p><a href="index.html"><i class="fas fa-home"></i> Início</a></p>
+                    <p><a href="sobre.html"><i class="fas fa-info-circle"></i> Sobre</a></p>
+                    <p><a href="voluntariado.html"><i class="fas fa-hands-helping"></i> Voluntariado</a></p>
+                    <p><a href="contato.html"><i class="fas fa-envelope"></i> Contato</a></p>
+                </div>
+                <div class="footer-section">
+                    <h4>Serviços</h4>
+                    <p><a href="voluntariado.html#saude"><i class="fas fa-heartbeat"></i> Saúde</a></p>
+                    <p><a href="agendamento.html"><i class="fas fa-book-bible"></i> Estudos Bíblicos</a></p>
+                    <p><a href="oracoes.html"><i class="fas fa-praying-hands"></i> Mural de Orações</a></p>
+                </div>
+                <div class="footer-section">
+                    <h4>Redes Sociais</h4>
+                    <p>
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook fa-lg"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram fa-lg"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube fa-lg"></i></a>
+                        <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp fa-lg"></i></a>
+                    </p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Igreja Adventista do Sétimo Dia. Todos os direitos reservados.</p>
+                <p style="margin-top: var(--spacing-sm);"><i class="fas fa-graduation-cap"></i> Projeto de Extensão - Sistemas de Informação e Sociedade</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/supabase-client.js"></script>
+    <script>
+        const RECIFE_LAT = -8.0476;
+        
+        function getSunTimes(date = new Date()) {
+            const dayOfYear = Math.floor((date - new Date(date.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
+            const declination = 23.45 * Math.sin((360 * (284 + dayOfYear) / 365) * Math.PI / 180);
+            const hourAngle = Math.acos(-Math.tan(RECIFE_LAT * Math.PI / 180) * Math.tan(declination * Math.PI / 180));
+            const sunriseUTC = 12 - (hourAngle * 180 / Math.PI) / 15;
+            const sunsetUTC = 12 + (hourAngle * 180 / Math.PI) / 15;
+            const sunrise = new Date(date);
+            sunrise.setHours(sunriseUTC - 3, 0, 0, 0);
+            const sunset = new Date(date);
+            sunset.setHours(sunsetUTC - 3, 0, 0, 0);
+            return { sunrise, sunset };
+        }
+        
+        function isNightInRecife() {
+            const now = new Date();
+            const { sunrise, sunset } = getSunTimes(now);
+            const sunriseMargin = new Date(sunrise.getTime() - 30 * 60000);
+            const sunsetMargin = new Date(sunset.getTime() + 30 * 60000);
+            return now < sunriseMargin || now > sunsetMargin;
+        }
+        
+        function applyTheme(theme) {
+            if (theme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+            }
+        }
+        
+        function checkAutoTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const manualOverride = localStorage.getItem('themeManualOverride');
+            if (!manualOverride || manualOverride === 'false') {
+                applyTheme(isNightInRecife() ? 'dark' : 'light');
+            } else {
+                applyTheme(savedTheme);
+            }
+        }
+        
+        function toggleThemeManual() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            applyTheme(newTheme);
+            localStorage.setItem('theme', newTheme);
+            localStorage.setItem('themeManualOverride', 'true');
+            showNotification(`Tema ${newTheme === 'dark' ? 'escuro' : 'claro'} ativado`, 'info');
+        }
+        
+        function toggleAccessibility() {
+            const body = document.body;
+            const btn = document.getElementById('accessibilityToggle');
+            const isEnabled = body.classList.toggle('accessibility-mode');
+            localStorage.setItem('accessibilityMode', isEnabled ? 'enabled' : 'disabled');
+            if (isEnabled) {
+                btn.classList.add('active');
+                btn.setAttribute('data-tooltip', 'Desativar Acessibilidade');
+                showNotification('Modo de acessibilidade ativado!', 'success');
+            } else {
+                btn.classList.remove('active');
+                btn.setAttribute('data-tooltip', 'Ativar Acessibilidade');
+                showNotification('Modo de acessibilidade desativado.', 'info');
+            }
+        }
+        
+        function toggleMenu() {
+            const nav = document.getElementById('navbarNav');
+            nav.classList.toggle('active');
+        }
+        
+        function toggleModalidadeFields() {
+            const modalidade = document.querySelector('input[name="modalidade"]:checked').value;
+            const enderecoField = document.getElementById('endereco-field');
+            const linkField = document.getElementById('link-field');
+            if (modalidade === 'presencial') {
+                enderecoField.style.display = 'block';
+                linkField.style.display = 'none';
+                document.getElementById('agendamento-endereco').required = true;
+            } else {
+                enderecoField.style.display = 'none';
+                linkField.style.display = 'block';
+                document.getElementById('agendamento-endereco').required = false;
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAutoTheme();
+            setInterval(checkAutoTheme, 60000);
+            if (localStorage.getItem('accessibilityMode') === 'enabled') {
+                document.body.classList.add('accessibility-mode');
+                document.getElementById('accessibilityToggle')?.classList.add('active');
+            }
+            const amanha = new Date();
+            amanha.setDate(amanha.getDate() + 1);
+            document.getElementById('agendamento-data').min = amanha.toISOString().split('T')[0];
+            checkAuth();
+        });
+        
+        async function checkAuth() {
+            const user = await getCurrentUser();
+            const loginLink = document.getElementById('nav-login');
+            const userLink = document.getElementById('nav-user');
+            if (user && loginLink && userLink) {
+                loginLink.style.display = 'none';
+                userLink.style.display = 'block';
+            }
+        }
+        
+        async function submitAgendamento(event) {
+            event.preventDefault();
+            const submitBtn = event.target.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="loading"></span> Enviando...';
+            const modalidade = document.querySelector('input[name="modalidade"]:checked').value;
+            const agendamentoData = {
+                dataPreferida: document.getElementById('agendamento-data').value,
+                horarioPreferido: document.getElementById('agendamento-horario').value,
+                modalidade: modalidade,
+                enderecoPresencial: modalidade === 'presencial' ? document.getElementById('agendamento-endereco').value : null,
+                linkOnline: modalidade === 'online' ? document.getElementById('agendamento-link').value : null,
+                temaInteresse: document.getElementById('agendamento-tema').value,
+                observacoes: document.getElementById('agendamento-observacoes').value
+            };
+            try {
+                const resultado = await agendarEstudo(agendamentoData);
+                if (resultado.success) {
+                    showNotification('Agendamento realizado com sucesso!', 'success');
+                    event.target.reset();
+                } else {
+                    throw new Error(resultado.error);
+                }
+            } catch (error) {
+                showNotification('Erro ao realizar agendamento. Tente novamente.', 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-calendar-check"></i> Confirmar Agendamento';
+            }
+        }
+    </script>
+</body>
+</html>

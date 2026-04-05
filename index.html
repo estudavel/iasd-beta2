@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Igreja Adventista do Sétimo Dia - Projeto de Extensão Universitária. Serviço à comunidade, voluntariado, estudos bíblicos e mural de orações.">
+    <title>IASD - Boas Vindas | Igreja Adventista do Sétimo Dia</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://static.wikia.nocookie.net/logopedia/images/7/72/IASD_%281997%29.png">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+</head>
+<body>
+    <!-- BOTÕES FLUTUANTES -->
+    <div class="floating-buttons">
+        <button class="floating-btn theme-toggle" id="themeToggle" onclick="toggleThemeManual()" data-tooltip="Alternar Tema">
+            <i class="fas fa-moon"></i>
+            <i class="fas fa-sun"></i>
+        </button>
+        <button class="floating-btn accessibility-toggle" id="accessibilityToggle" onclick="toggleAccessibility()" data-tooltip="Modo Acessibilidade">
+            <i class="fas fa-universal-access"></i>
+        </button>
+    </div>
+
+    <!-- NAVEGAÇÃO -->
+    <nav class="navbar" role="navigation" aria-label="Navegação principal">
+        <div class="navbar-container">
+            <a href="index.html" class="navbar-brand">
+                <img src="https://static.wikia.nocookie.net/logopedia/images/7/72/IASD_%281997%29.png" alt="IASD Logo" class="navbar-logo" style="height: 48px; width: auto;">
+                <div class="navbar-title">IASD<span>Igreja Adventista do Sétimo Dia</span></div>
+            </a>
+            
+            <button class="navbar-toggle" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+            
+            <ul class="navbar-nav" id="navbarNav">
+                <li><a href="index.html" class="nav-link">Início</a></li>
+                <li><a href="sobre.html" class="nav-link">Sobre</a></li>
+                <li><a href="voluntariado.html" class="nav-link">Voluntariado</a></li>
+                <li><a href="agendamento.html" class="nav-link">Estudos</a></li>
+                <li><a href="oracoes.html" class="nav-link">Orações</a></li>
+                <li><a href="contato.html" class="nav-link">Contato</a></li>
+                <li id="nav-login"><a href="login.html" class="nav-link"><i class="fas fa-sign-in-alt"></i> Entrar</a></li>
+                <li id="nav-user" style="display: none;">
+                    <a href="#" class="nav-link" onclick="signOut()"><i class="fas fa-sign-out-alt"></i> Sair</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <i class="fas fa-church"></i>
+                Bem-vindo à IASD
+            </h1>
+            <p class="hero-subtitle">
+                Um lugar de fé, esperança e amor. Estamos aqui para servir à comunidade 
+                e compartilhar a mensagem do evangelho.
+            </p>
+            
+            <!-- BOTÕES DE AÇÃO RÁPIDA -->
+            <div class="hero-actions">
+                <a href="oracoes.html#novo-pedido" class="btn btn-accent btn-lg">
+                    <i class="fas fa-praying-hands"></i>
+                    Pedir Oração
+                </a>
+                <a href="contato.html#ajuda" class="btn btn-lg" style="background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,255,255,0.85)); color: var(--iasd-secondary);">
+                    <i class="fas fa-hands-helping"></i>
+                    Preciso de Ajuda
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- SEÇÃO DE RECURSOS -->
+    <section class="section section-alt">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Como Podemos Ajudar?</h2>
+                <p class="section-subtitle">
+                    Oferecemos diversos serviços para cuidar de você e sua família
+                </p>
+            </div>
+            
+            <div class="grid grid-4">
+                <!-- Card 1: Voluntariado de Saúde -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <h3 class="feature-title">Saúde e Bem-estar</h3>
+                    <p class="feature-description">
+                        Estudantes de enfermagem oferecem acompanhamento gratuito 
+                        para idosos: medição de pressão, glicemia e cuidados básicos.
+                    </p>
+                    <a href="voluntariado.html#saude" class="btn btn-primary btn-sm">
+                        Saiba Mais
+                    </a>
+                </div>
+                
+                <!-- Card 2: Estudos Bíblicos -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-book-bible"></i>
+                    </div>
+                    <h3 class="feature-title">Estudos Bíblicos</h3>
+                    <p class="feature-description">
+                        Agende seu estudo bíblico presencial ou online. 
+                        Conheça mais sobre a Palavra de Deus no seu ritmo.
+                    </p>
+                    <a href="agendamento.html" class="btn btn-primary btn-sm">
+                        Agendar
+                    </a>
+                </div>
+                
+                <!-- Card 3: Mural de Orações -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-pray"></i>
+                    </div>
+                    <h3 class="feature-title">Mural de Orações</h3>
+                    <p class="feature-description">
+                        Compartilhe seus pedidos de oração de forma pública, 
+                        anônima ou apenas com os líderes. Estamos orando por você!
+                    </p>
+                    <a href="oracoes.html" class="btn btn-primary btn-sm">
+                        Participar
+                    </a>
+                </div>
+                
+                <!-- Card 4: Voluntariado -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-hand-holding-heart"></i>
+                    </div>
+                    <h3 class="feature-title">Seja Voluntário</h3>
+                    <p class="feature-description">
+                        Use seus talentos para servir. Temos oportunidades 
+                        em diversas áreas: saúde, ensino, música e mais.
+                    </p>
+                    <a href="voluntariado.html#cadastro" class="btn btn-primary btn-sm">
+                        Cadastrar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO DE DESTAQUE: AJUDA RÁPIDA -->
+    <section class="section" style="background: linear-gradient(135deg, rgba(var(--iasd-secondary-rgb), 0.95) 0%, rgba(var(--iasd-primary-rgb), 0.95) 100%); position: relative; overflow: hidden;">
+        <div style="position: absolute; inset: 0; background: radial-gradient(circle at 80% 20%, rgba(var(--iasd-accent-rgb), 0.15) 0%, transparent 50%);"></div>
+        <div class="container" style="position: relative; z-index: 1;">
+            <div class="grid grid-2" style="align-items: center;">
+                <div>
+                    <h2 style="color: white; font-size: var(--font-size-3xl); margin-bottom: var(--spacing-md);">
+                        <i class="fas fa-phone-volume"></i>
+                        Precisa de ajuda urgente?
+                    </h2>
+                    <p style="color: rgba(255,255,255,0.9); font-size: var(--font-size-lg); margin-bottom: var(--spacing-lg);">
+                        Nossa equipe de líderes está disponível para atender você. 
+                        Entre em contato pelo telefone, WhatsApp ou preenchendo o formulário.
+                    </p>
+                    <div style="display: flex; flex-wrap: wrap; gap: var(--spacing-md);">
+                        <a href="tel:+5511999999999" class="btn btn-accent btn-lg">
+                            <i class="fas fa-phone"></i>
+                            Ligar Agora
+                        </a>
+                        <a href="contato.html" class="glass-btn btn-lg" style="color: rgba(var(--iasd-secondary-rgb), 0.95); border-color: rgba(255,255,255,0.3);">
+                            <i class="fas fa-envelope"></i>
+                            Enviar Mensagem
+                        </a>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <i class="fas fa-hands-helping" style="font-size: 10rem; opacity: 0.2; color: white;"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO: PRÓXIMOS EVENTOS -->
+    <section class="section section-alt">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Programação da Semana</h2>
+                <p class="section-subtitle">
+                    Participe de nossos cultos e atividades
+                </p>
+            </div>
+            
+            <div class="grid grid-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-sun text-primary"></i>
+                            Escola Sabatina
+                        </h3>
+                        <p class="card-subtitle">Sábados às 9h30</p>
+                    </div>
+                    <p>Estudo bíblico em grupos para todas as idades. Venha aprender mais sobre a Palavra de Deus.</p>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-church text-primary"></i>
+                            Culto de Adoração
+                        </h3>
+                        <p class="card-subtitle">Sábados às 11h <br>Domingos e Quartas às 19h30</p>
+                    </div>
+                    <p>Cultos principais da semana com louvor, oração e pregação da Palavra.</p>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-users text-primary"></i>
+                            Pequenos Grupos
+                        </h3>
+                        <p class="card-subtitle">Sextas-feiras às 19h30</p>
+                    </div>
+                    <p>Grupos de estudo e comunhão em diferentes bairros. Entre em contato para participar.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO: ESTATÍSTICAS -->
+    <section class="section">
+        <div class="container">
+            <div class="grid grid-4 text-center">
+                <div class="card" style="padding: var(--spacing-lg);">
+                    <div style="font-size: var(--font-size-3xl); color: var(--iasd-primary); font-weight: 700;">
+                        <i class="fas fa-users"></i> 30+
+                    </div>
+                    <p style="color: var(--iasd-text-light); font-size: var(--font-size-sm);">Membros</p>
+                </div>
+                <div class="card" style="padding: var(--spacing-lg);">
+                    <div style="font-size: var(--font-size-3xl); color: var(--iasd-primary); font-weight: 700;">
+                        <i class="fas fa-hand-holding-heart"></i> 5+
+                    </div>
+                    <p style="color: var(--iasd-text-light); font-size: var(--font-size-sm);">Voluntários</p>
+                </div>
+                <div class="card" style="padding: var(--spacing-lg);">
+                    <div style="font-size: var(--font-size-3xl); color: var(--iasd-primary); font-weight: 700;">
+                        <i class="fas fa-praying-hands"></i> 100+
+                    </div>
+                    <p style="color: var(--iasd-text-light); font-size: var(--font-size-sm);">Orações Atendidas</p>
+                </div>
+                <div class="card" style="padding: var(--spacing-lg);">
+                    <div style="font-size: var(--font-size-3xl); color: var(--iasd-primary); font-weight: 700;">
+                        <i class="fas fa-calendar-check"></i> 25+
+                    </div>
+                    <p style="color: var(--iasd-text-light); font-size: var(--font-size-sm);">Estudos Realizados</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO: PEDIDOS DE ORAÇÃO RECENTES -->
+    <section class="section section-alt">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-pray"></i>
+                    Pedidos de Oração Recentes
+                </h2>
+                <p class="section-subtitle">
+                    Ore por nossos irmãos e irmãs. Seu apoio espiritual faz a diferença!
+                </p>
+            </div>
+            
+            <div id="pedidos-recentes">
+                <div class="spinner-container">
+                    <div class="spinner"></div>
+                    <p class="spinner-text">Carregando pedidos...</p>
+                </div>
+            </div>
+            
+            <div class="text-center mt-xl">
+                <a href="oracoes.html" class="btn btn-primary btn-lg">
+                    <i class="fas fa-list"></i>
+                    Ver todos os pedidos
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>
+                        <i class="fas fa-church"></i>
+                        IASD Local
+                    </h4>
+                    <p>
+                        Rua Exemplo, 123<br>
+                        Bairro - Cidade/UF<br>
+                        CEP: 00000-000
+                    </p>
+                    <p>
+                        <i class="fas fa-phone"></i> (11) 9999-9999<br>
+                        <i class="fas fa-envelope"></i> contato@iasdlocal.org
+                    </p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Links Rápidos</h4>
+                    <p><a href="index.html"><i class="fas fa-home"></i> Início</a></p>
+                    <p><a href="sobre.html"><i class="fas fa-info-circle"></i> Sobre</a></p>
+                    <p><a href="voluntariado.html"><i class="fas fa-hands-helping"></i> Voluntariado</a></p>
+                    <p><a href="contato.html"><i class="fas fa-envelope"></i> Contato</a></p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Serviços</h4>
+                    <p><a href="voluntariado.html#saude"><i class="fas fa-heartbeat"></i> Saúde</a></p>
+                    <p><a href="agendamento.html"><i class="fas fa-book-bible"></i> Estudos Bíblicos</a></p>
+                    <p><a href="oracoes.html"><i class="fas fa-praying-hands"></i> Mural de Orações</a></p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Redes Sociais</h4>
+                    <p>
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook fa-lg"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram fa-lg"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube fa-lg"></i></a>
+                        <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp fa-lg"></i></a>
+                    </p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>
+                    &copy; 2024 Igreja Adventista do Sétimo Dia. Todos os direitos reservados.
+                </p>
+                <p style="margin-top: var(--spacing-sm);">
+                    <i class="fas fa-graduation-cap"></i>
+                    Projeto de Extensão - Sistemas de Informação e Sociedade
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script src="js/supabase-client.js"></script>
+    <script>
+        // ============================================================
+        // MODO NOTURNO AUTOMÁTICO - RECIFE, PE
+        // ============================================================
+        
+        const RECIFE_LAT = -8.0476;
+        
+        function getSunTimes(date = new Date()) {
+            const dayOfYear = Math.floor((date - new Date(date.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
+            const declination = 23.45 * Math.sin((360 * (284 + dayOfYear) / 365) * Math.PI / 180);
+            const hourAngle = Math.acos(-Math.tan(RECIFE_LAT * Math.PI / 180) * Math.tan(declination * Math.PI / 180));
+            const sunriseUTC = 12 - (hourAngle * 180 / Math.PI) / 15;
+            const sunsetUTC = 12 + (hourAngle * 180 / Math.PI) / 15;
+            
+            const sunrise = new Date(date);
+            sunrise.setHours(sunriseUTC - 3, 0, 0, 0);
+            
+            const sunset = new Date(date);
+            sunset.setHours(sunsetUTC - 3, 0, 0, 0);
+            
+            return { sunrise, sunset };
+        }
+        
+        function isNightInRecife() {
+            const now = new Date();
+            const { sunrise, sunset } = getSunTimes(now);
+            const sunriseMargin = new Date(sunrise.getTime() - 30 * 60000);
+            const sunsetMargin = new Date(sunset.getTime() + 30 * 60000);
+            return now < sunriseMargin || now > sunsetMargin;
+        }
+        
+        function applyTheme(theme) {
+            if (theme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+            }
+        }
+        
+        function checkAutoTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const manualOverride = localStorage.getItem('themeManualOverride');
+            
+            if (!manualOverride || manualOverride === 'false') {
+                applyTheme(isNightInRecife() ? 'dark' : 'light');
+            } else {
+                applyTheme(savedTheme);
+            }
+        }
+        
+        function toggleThemeManual() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            applyTheme(newTheme);
+            localStorage.setItem('theme', newTheme);
+            localStorage.setItem('themeManualOverride', 'true');
+            showNotification(`Tema ${newTheme === 'dark' ? 'escuro' : 'claro'} ativado`, 'info');
+        }
+        
+        // ============================================================
+        // MODO ACESSIBILIDADE
+        // ============================================================
+        
+        function toggleAccessibility() {
+            const body = document.body;
+            const btn = document.getElementById('accessibilityToggle');
+            const isEnabled = body.classList.toggle('accessibility-mode');
+            
+            localStorage.setItem('accessibilityMode', isEnabled ? 'enabled' : 'disabled');
+            
+            if (isEnabled) {
+                btn.classList.add('active');
+                btn.setAttribute('data-tooltip', 'Desativar Acessibilidade');
+                showNotification('Modo de acessibilidade ativado!', 'success');
+            } else {
+                btn.classList.remove('active');
+                btn.setAttribute('data-tooltip', 'Ativar Acessibilidade');
+                showNotification('Modo de acessibilidade desativado.', 'info');
+            }
+        }
+        
+        // ============================================================
+        // UTILITÁRIOS
+        // ============================================================
+        
+        function toggleMenu() {
+            const nav = document.getElementById('navbarNav');
+            nav.classList.toggle('active');
+        }
+        
+        // ============================================================
+        // INICIALIZAÇÃO
+        // ============================================================
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            // Tema
+            checkAutoTheme();
+            setInterval(checkAutoTheme, 60000);
+            
+            // Acessibilidade
+            if (localStorage.getItem('accessibilityMode') === 'enabled') {
+                document.body.classList.add('accessibility-mode');
+                document.getElementById('accessibilityToggle')?.classList.add('active');
+            }
+            
+            // Carregar pedidos
+            carregarPedidosRecentes();
+            
+            // Verificar autenticação
+            checkAuth();
+        });
+        
+        // ============================================================
+        // AUTENTICAÇÃO
+        // ============================================================
+        
+        async function checkAuth() {
+            const user = await getCurrentUser();
+            const loginLink = document.getElementById('nav-login');
+            const userLink = document.getElementById('nav-user');
+            
+            if (user && loginLink && userLink) {
+                loginLink.style.display = 'none';
+                userLink.style.display = 'block';
+            }
+        }
+        
+        // ============================================================
+        // PEDIDOS DE ORAÇÃO
+        // ============================================================
+        
+        async function carregarPedidosRecentes() {
+            const container = document.getElementById('pedidos-recentes');
+            
+            try {
+                const resultado = await getPedidosOracaoPublicos();
+                
+                if (!resultado.success) {
+                    container.innerHTML = `
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle alert-icon"></i>
+                            <div>
+                                <strong>Em breve!</strong><br>
+                                O mural de orações estará disponível em breve.
+                            </div>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                const pedidos = resultado.data || [];
+                
+                if (pedidos.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">🙏</div>
+                            <h3 class="empty-state-title">Nenhum pedido ainda</h3>
+                            <p class="empty-state-description">
+                                Seja o primeiro a compartilhar um pedido de oração!
+                            </p>
+                            <a href="oracoes.html#novo-pedido" class="btn btn-primary">
+                                Fazer Pedido
+                            </a>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                const pedidosRecentes = pedidos.slice(0, 3);
+                
+                container.innerHTML = pedidosRecentes.map(pedido => `
+                    <div class="oracao-card ${pedido.nivel_privacidade}">
+                        <div class="oracao-header">
+                            <h3 class="oracao-titulo">${pedido.titulo}</h3>
+                            <div class="oracao-meta">
+                                <span class="badge badge-primary">${pedido.categoria}</span>
+                                <span class="oracao-autor">
+                                    <i class="fas fa-user"></i>
+                                    ${pedido.nome_exibicao || (pedido.perfis?.nome_completo || 'Membro')}
+                                </span>
+                                <span class="oracao-data">
+                                    <i class="fas fa-calendar"></i>
+                                    ${formatarData(pedido.created_at)}
+                                </span>
+                            </div>
+                        </div>
+                        <p class="oracao-conteudo">${truncarTexto(pedido.conteudo, 150)}</p>
+                        <div class="oracao-footer">
+                            <div class="oracao-contador">
+                                <i class="fas fa-pray"></i>
+                                <strong>${pedido.contador_oracoes || 0}</strong>
+                                ${pedido.contador_oracoes === 1 ? 'pessoa orando' : 'pessoas orando'}
+                            </div>
+                            <a href="oracoes.html" class="btn btn-primary btn-sm">
+                                <i class="fas fa-hands"></i>
+                                Eu Vou Orar
+                            </a>
+                        </div>
+                    </div>
+                `).join('');
+                
+            } catch (error) {
+                console.error('Erro ao carregar pedidos:', error);
+                container.innerHTML = `
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle alert-icon"></i>
+                        <div>
+                            <strong>Mural em manutenção</strong><br>
+                            Estamos preparando o mural de orações para você.
+                        </div>
+                    </div>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Conheça a Igreja Adventista do Sétimo Dia - Nossa missão, história e serviço à comunidade.">
+    <title>Sobre a IASD | Igreja Adventista do Sétimo Dia</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://static.wikia.nocookie.net/logopedia/images/7/72/IASD_%281997%29.png">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+</head>
+<body>
+    <!-- BOTÕES FLUTUANTES -->
+    <div class="floating-buttons">
+        <button class="floating-btn theme-toggle" id="themeToggle" onclick="toggleThemeManual()" data-tooltip="Alternar Tema">
+            <i class="fas fa-moon"></i>
+            <i class="fas fa-sun"></i>
+        </button>
+        <button class="floating-btn accessibility-toggle" id="accessibilityToggle" onclick="toggleAccessibility()" data-tooltip="Modo Acessibilidade">
+            <i class="fas fa-universal-access"></i>
+        </button>
+    </div>
+
+    <!-- NAVEGAÇÃO -->
+    <nav class="navbar" role="navigation" aria-label="Navegação principal">
+        <div class="navbar-container">
+            <a href="index.html" class="navbar-brand">
+                <img src="https://static.wikia.nocookie.net/logopedia/images/7/72/IASD_%281997%29.png" alt="IASD Logo" class="navbar-logo" style="height: 48px; width: auto;">
+                <div class="navbar-title">IASD<span>Igreja Adventista do Sétimo Dia</span></div>
+            </a>
+            
+            <button class="navbar-toggle" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+            
+            <ul class="navbar-nav" id="navbarNav">
+                <li><a href="index.html" class="nav-link">Início</a></li>
+                <li><a href="sobre.html" class="nav-link">Sobre</a></li>
+                <li><a href="voluntariado.html" class="nav-link">Voluntariado</a></li>
+                <li><a href="agendamento.html" class="nav-link">Estudos</a></li>
+                <li><a href="oracoes.html" class="nav-link">Orações</a></li>
+                <li><a href="contato.html" class="nav-link">Contato</a></li>
+                <li id="nav-login"><a href="login.html" class="nav-link"><i class="fas fa-sign-in-alt"></i> Entrar</a></li>
+                <li id="nav-user" style="display: none;">
+                    <a href="#" class="nav-link" onclick="signOut()"><i class="fas fa-sign-out-alt"></i> Sair</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header class="hero" style="padding: var(--spacing-xl) 0;">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <i class="fas fa-info-circle"></i>
+                Sobre a IASD
+            </h1>
+            <p class="hero-subtitle">
+                Conheça nossa história, missão e valores
+            </p>
+        </div>
+    </header>
+
+    <!-- SEÇÃO: QUEM SOMOS -->
+    <section class="section section-alt">
+        <div class="container">
+            <div class="grid grid-2" style="align-items: center; gap: var(--spacing-2xl);">
+                <div>
+                    <h2 class="section-title" style="text-align: left;">
+                        <i class="fas fa-church text-primary"></i>
+                        Igreja Adventista do Sétimo Dia
+                    </h2>
+                    <p>
+                        A Igreja Adventista do Sétimo Dia é uma denominação cristã protestante 
+                        caracterizada pela observância do sábado como dia de descanso e adoração, 
+                        e pela crença na breve volta de Jesus Cristo.
+                    </p>
+                    <p>
+                        Fundada em 1863 nos Estados Unidos, hoje contamos com mais de 
+                        <strong>22 milhões de membros</strong> em todo o mundo, presentes em 
+                        mais de <strong>200 países</strong>.
+                    </p>
+                    <p>
+                        Nosso nome reflete duas características fundamentais de nossa fé:
+                    </p>
+                    <ul style="margin-left: var(--spacing-lg); margin-bottom: var(--spacing-lg);">
+                        <li><strong>Adventista:</strong> cremos na segunda vinda de Jesus</li>
+                        <li><strong>Sétimo Dia:</strong> observamos o sábado como dia santo</li>
+                    </ul>
+                </div>
+                <div class="text-center">
+                    <div style="background: linear-gradient(135deg, var(--iasd-primary), var(--iasd-secondary)); 
+                                border-radius: var(--border-radius-lg); 
+                                padding: var(--spacing-xl);
+                                color: white;
+                                box-shadow: var(--shadow-lg);">
+                        <img src="https://static.wikia.nocookie.net/logopedia/images/7/72/IASD_%281997%29.png" alt="IASD Logo" style="width: 150px; height: auto; margin: 0 auto; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));">
+                        <h3 style="color: var(--iasd-accent); margin-top: var(--spacing-lg);">Nosso Símbolo</h3>
+                        <p style="color: rgba(255,255,255,0.9);">
+                            A cruz, a Bíblia aberta, a chama e o globo 
+                            representam nossa missão mundial.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO: CRENÇAS FUNDAMENTAIS -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Nossas Crenças Fundamentais</h2>
+                <p class="section-subtitle">
+                    Os pilares que sustentam nossa fé e prática
+                </p>
+            </div>
+            
+            <div class="accordion" id="crencasAccordion">
+                <div class="accordion-item active">
+                    <button class="accordion-header" onclick="toggleAccordion(this)">
+                        <span><i class="fas fa-bible"></i> A Bíblia</span>
+                    </button>
+                    <div class="accordion-body">
+                        <div class="accordion-content">
+                            A Bíblia é a Palavra de Deus escrita, nossa única regra de fé e prática. 
+                            Cremos que as Escrituras Sagradas são inspiradas por Deus e revelam 
+                            Sua vontade para a humanidade.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <button class="accordion-header" onclick="toggleAccordion(this)">
+                        <span><i class="fas fa-cross"></i> A Trindade</span>
+                    </button>
+                    <div class="accordion-body">
+                        <div class="accordion-content">
+                            Cremos em um único Deus eterno, manifestado em três Pessoas: 
+                            o Pai, o Filho (Jesus Cristo) e o Espírito Santo. Cada Pessoa 
+                            da Trindade é plenamente Deus, coexistindo eternamente.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <button class="accordion-header" onclick="toggleAccordion(this)">
+                        <span><i class="fas fa-sun"></i> O Sábado</span>
+                    </button>
+                    <div class="accordion-body">
+                        <div class="accordion-content">
+                            O sábado é o sétimo dia da semana, estabelecido por Deus desde a Criação 
+                            como memorial de Seu poder criador. Observamos o sábado do pôr do sol 
+                            de sexta-feira ao pôr do sol de sábado, dedicando-o ao descanso e 
+                            adoração a Deus.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <button class="accordion-header" onclick="toggleAccordion(this)">
+                        <span><i class="fas fa-cloud-sun"></i> A Segunda Vinda</span>
+                    </button>
+                    <div class="accordion-body">
+                        <div class="accordion-content">
+                            Cremos na breve e literal volta de Jesus Cristo. Este evento será 
+                            visível, audível e glorioso, quando os mortos em Cristo ressuscitarão 
+                            e os vivos serão transformados para encontrar o Senhor nos ares.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <button class="accordion-header" onclick="toggleAccordion(this)">
+                        <span><i class="fas fa-heart"></i> Saúde e Bem-estar</span>
+                    </button>
+                    <div class="accordion-body">
+                        <div class="accordion-content">
+                            Nosso corpo é templo do Espírito Santo. Por isso, valorizamos 
+                            um estilo de vida saudável: alimentação equilibrada, exercícios 
+                            físicos, descanso adequado e abstinência de substâncias nocivas 
+                            como álcool e tabaco.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO: MISSÃO E VISÃO -->
+    <section class="section section-alt">
+        <div class="container">
+            <div class="grid grid-2">
+                <div class="card" style="border-top: 5px solid var(--iasd-primary);">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-bullseye text-primary"></i>
+                            Nossa Missão
+                        </h3>
+                    </div>
+                    <p>
+                        <strong>"Fazer discípulos de todas as nações"</strong> - Mateus 28:19
+                    </p>
+                    <p>
+                        Proclamar o evangelho eterno de Jesus Cristo em contexto da 
+                        mensagem dos três anjos de Apocalipse 14, preparando um povo 
+                        para a segunda vinda do Senhor.
+                    </p>
+                    <p>
+                        Buscamos alcançar comunidades através do serviço, educação, 
+                        saúde e compaixão, refletindo o amor de Cristo em todas as ações.
+                    </p>
+                </div>
+                
+                <div class="card" style="border-top: 5px solid var(--iasd-accent);">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-eye text-accent"></i>
+                            Nossa Visão
+                        </h3>
+                    </div>
+                    <p>
+                        Ser uma igreja vibrante e acolhedora, onde cada membro é 
+                        capacitado para servir e compartilhar sua fé.
+                    </p>
+                    <p>
+                        Queremos ser reconhecidos como um centro de esperança em nossa 
+                        comunidade, oferecendo apoio espiritual, emocional e físico 
+                        a todos que buscam ajuda.
+                    </p>
+                    <p>
+                        Sonhamos com uma igreja onde jovens e idosos caminham juntos, 
+                        onde o conhecimento acadêmico se une ao serviço cristão.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO: SERVIÇO À COMUNIDADE -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-hands-helping"></i>
+                    Serviço à Comunidade
+                </h2>
+                <p class="section-subtitle">
+                    A fé se expressa através de ações de amor
+                </p>
+            </div>
+            
+            <div class="timeline">
+                <div class="timeline-item active">
+                    <div class="timeline-content">
+                        <div class="timeline-date">
+                            <i class="fas fa-heartbeat"></i> Saúde
+                        </div>
+                        <h4 class="timeline-title">Acompanhamento de Saúde</h4>
+                        <p class="timeline-description">
+                            Em parceria com estudantes de enfermagem, oferecemos 
+                            acompanhamento gratuito para idosos da comunidade, 
+                            incluindo medição de pressão arterial, glicemia e 
+                            orientações de saúde preventiva.
+                        </p>
+                        <a href="voluntariado.html#saude" class="btn btn-primary btn-sm mt-md">
+                            Solicitar Acompanhamento
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="timeline-item active">
+                    <div class="timeline-content">
+                        <div class="timeline-date">
+                            <i class="fas fa-book-reader"></i> Educação
+                        </div>
+                        <h4 class="timeline-title">Estudos Bíblicos</h4>
+                        <p class="timeline-description">
+                            Oferecemos estudos bíblicos personalizados, presenciais 
+                            ou online, para quem deseja conhecer mais sobre a 
+                            Palavra de Deus. Nossos líderes estão preparados 
+                            para atender no seu ritmo e disponibilidade.
+                        </p>
+                        <a href="agendamento.html" class="btn btn-primary btn-sm mt-md">
+                            Agendar Estudo
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="timeline-item active">
+                    <div class="timeline-content">
+                        <div class="timeline-date">
+                            <i class="fas fa-box-open"></i> Assistência
+                        </div>
+                        <h4 class="timeline-title">Doações e Apoio Social</h4>
+                        <p class="timeline-description">
+                            Realizamos campanhas de arrecadação de alimentos, 
+                            roupas e itens de higiene para famílias em situação 
+                            de vulnerabilidade. Nossos voluntários também realizam 
+                            visitas de apoio e companheirismo.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item active">
+                    <div class="timeline-content">
+                        <div class="timeline-date">
+                            <i class="fas fa-pray"></i> Espiritual
+                        </div>
+                        <h4 class="timeline-title">Mural de Orações</h4>
+                        <p class="timeline-description">
+                            Nossa comunidade ora uns pelos outros. Compartilhe 
+                            seus pedidos de oração de forma pública, anônima 
+                            ou apenas com os líderes. Estamos aqui para suportar 
+                            você em momentos de necessidade.
+                        </p>
+                        <a href="oracoes.html" class="btn btn-primary btn-sm mt-md">
+                            Fazer Pedido
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO: PROJETO DE EXTENSÃO -->
+    <section class="section section-alt">
+        <div class="container">
+            <div class="card" style="background: linear-gradient(135deg, var(--iasd-primary), var(--iasd-secondary)); color: white;">
+                <div class="grid grid-2" style="align-items: center;">
+                    <div>
+                        <h2 style="color: var(--iasd-accent);">
+                            <i class="fas fa-graduation-cap"></i>
+                            Projeto de Extensão Universitária
+                        </h2>
+                        <p style="color: rgba(255,255,255,0.9);">
+                            Este site é fruto de um projeto de extensão da disciplina 
+                            <strong>"Sistemas de Informação e Sociedade"</strong>, desenvolvido 
+                            por estudantes de Sistemas de Informação em parceria com a 
+                            Igreja Adventista local.
+                        </p>
+                        <p style="color: rgba(255,255,255,0.9);">
+                            O projeto visa aplicar conhecimentos tecnológicos para 
+                            beneficiar a comunidade, criando soluções acessíveis e 
+                            úteis para o dia a dia da igreja.
+                        </p>
+                        <div class="mt-lg">
+                            <span class="badge" style="background-color: var(--iasd-accent); color: var(--iasd-secondary);">
+                                <i class="fas fa-code"></i> Desenvolvimento Web
+                            </span>
+                            <span class="badge" style="background-color: var(--iasd-accent); color: var(--iasd-secondary); margin-left: var(--spacing-sm);">
+                                <i class="fas fa-database"></i> Banco de Dados
+                            </span>
+                            <span class="badge" style="background-color: var(--iasd-accent); color: var(--iasd-secondary); margin-left: var(--spacing-sm);">
+                                <i class="fas fa-shield-alt"></i> Segurança
+                            </span>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <i class="fas fa-laptop-code" style="font-size: 8rem; opacity: 0.3;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO: CTA -->
+    <section class="section">
+        <div class="container text-center">
+            <h2 class="section-title">Venha Nos Conhecer!</h2>
+            <p class="section-subtitle">
+                Você é bem-vindo em nossos cultos e atividades
+            </p>
+            <div class="btn-group justify-center mt-lg">
+                <a href="contato.html" class="btn btn-primary btn-lg">
+                    <i class="fas fa-map-marker-alt"></i>
+                    Como Chegar
+                </a>
+                <a href="contato.html" class="btn btn-secondary btn-lg">
+                    <i class="fas fa-envelope"></i>
+                    Fale Conosco
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>
+                        <i class="fas fa-church"></i>
+                        IASD Local
+                    </h4>
+                    <p>
+                        Rua Exemplo, 123<br>
+                        Bairro - Cidade/UF<br>
+                        CEP: 00000-000
+                    </p>
+                    <p>
+                        <i class="fas fa-phone"></i> (11) 9999-9999<br>
+                        <i class="fas fa-envelope"></i> contato@iasdlocal.org
+                    </p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Links Rápidos</h4>
+                    <p><a href="index.html"><i class="fas fa-home"></i> Início</a></p>
+                    <p><a href="sobre.html"><i class="fas fa-info-circle"></i> Sobre</a></p>
+                    <p><a href="voluntariado.html"><i class="fas fa-hands-helping"></i> Voluntariado</a></p>
+                    <p><a href="contato.html"><i class="fas fa-envelope"></i> Contato</a></p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Serviços</h4>
+                    <p><a href="voluntariado.html#saude"><i class="fas fa-heartbeat"></i> Saúde</a></p>
+                    <p><a href="agendamento.html"><i class="fas fa-book-bible"></i> Estudos Bíblicos</a></p>
+                    <p><a href="oracoes.html"><i class="fas fa-praying-hands"></i> Mural de Orações</a></p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Redes Sociais</h4>
+                    <p>
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook fa-lg"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram fa-lg"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube fa-lg"></i></a>
+                        <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp fa-lg"></i></a>
+                    </p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Igreja Adventista do Sétimo Dia. Todos os direitos reservados.</p>
+                <p style="margin-top: var(--spacing-sm);">
+                    <i class="fas fa-graduation-cap"></i>
+                    Projeto de Extensão - Sistemas de Informação e Sociedade
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script src="js/supabase-client.js"></script>
+    <script>
+        // ============================================================
+        // MODO NOTURNO AUTOMÁTICO - RECIFE, PE
+        // ============================================================
+        
+        const RECIFE_LAT = -8.0476;
+        
+        function getSunTimes(date = new Date()) {
+            const dayOfYear = Math.floor((date - new Date(date.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
+            const declination = 23.45 * Math.sin((360 * (284 + dayOfYear) / 365) * Math.PI / 180);
+            const hourAngle = Math.acos(-Math.tan(RECIFE_LAT * Math.PI / 180) * Math.tan(declination * Math.PI / 180));
+            const sunriseUTC = 12 - (hourAngle * 180 / Math.PI) / 15;
+            const sunsetUTC = 12 + (hourAngle * 180 / Math.PI) / 15;
+            
+            const sunrise = new Date(date);
+            sunrise.setHours(sunriseUTC - 3, 0, 0, 0);
+            
+            const sunset = new Date(date);
+            sunset.setHours(sunsetUTC - 3, 0, 0, 0);
+            
+            return { sunrise, sunset };
+        }
+        
+        function isNightInRecife() {
+            const now = new Date();
+            const { sunrise, sunset } = getSunTimes(now);
+            const sunriseMargin = new Date(sunrise.getTime() - 30 * 60000);
+            const sunsetMargin = new Date(sunset.getTime() + 30 * 60000);
+            return now < sunriseMargin || now > sunsetMargin;
+        }
+        
+        function applyTheme(theme) {
+            if (theme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+            }
+        }
+        
+        function checkAutoTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const manualOverride = localStorage.getItem('themeManualOverride');
+            
+            if (!manualOverride || manualOverride === 'false') {
+                applyTheme(isNightInRecife() ? 'dark' : 'light');
+            } else {
+                applyTheme(savedTheme);
+            }
+        }
+        
+        function toggleThemeManual() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            applyTheme(newTheme);
+            localStorage.setItem('theme', newTheme);
+            localStorage.setItem('themeManualOverride', 'true');
+            showNotification(`Tema ${newTheme === 'dark' ? 'escuro' : 'claro'} ativado`, 'info');
+        }
+        
+        // ============================================================
+        // MODO ACESSIBILIDADE
+        // ============================================================
+        
+        function toggleAccessibility() {
+            const body = document.body;
+            const btn = document.getElementById('accessibilityToggle');
+            const isEnabled = body.classList.toggle('accessibility-mode');
+            
+            localStorage.setItem('accessibilityMode', isEnabled ? 'enabled' : 'disabled');
+            
+            if (isEnabled) {
+                btn.classList.add('active');
+                btn.setAttribute('data-tooltip', 'Desativar Acessibilidade');
+                showNotification('Modo de acessibilidade ativado!', 'success');
+            } else {
+                btn.classList.remove('active');
+                btn.setAttribute('data-tooltip', 'Ativar Acessibilidade');
+                showNotification('Modo de acessibilidade desativado.', 'info');
+            }
+        }
+        
+        // ============================================================
+        // UTILITÁRIOS
+        // ============================================================
+        
+        function toggleMenu() {
+            const nav = document.getElementById('navbarNav');
+            nav.classList.toggle('active');
+        }
+        
+        function toggleAccordion(button) {
+            const item = button.parentElement;
+            const wasActive = item.classList.contains('active');
+            
+            // Fechar todos
+            document.querySelectorAll('.accordion-item').forEach(i => {
+                i.classList.remove('active');
+            });
+            
+            // Abrir o clicado se não estava ativo
+            if (!wasActive) {
+                item.classList.add('active');
+            }
+        }
+        
+        // ============================================================
+        // INICIALIZAÇÃO
+        // ============================================================
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            // Tema
+            checkAutoTheme();
+            setInterval(checkAutoTheme, 60000);
+            
+            // Acessibilidade
+            if (localStorage.getItem('accessibilityMode') === 'enabled') {
+                document.body.classList.add('accessibility-mode');
+                document.getElementById('accessibilityToggle')?.classList.add('active');
+            }
+            
+            // Verificar autenticação
+            checkAuth();
+        });
+        
+        // ============================================================
+        // AUTENTICAÇÃO
+        // ============================================================
+        
+        async function checkAuth() {
+            const user = await getCurrentUser();
+            const loginLink = document.getElementById('nav-login');
+            const userLink = document.getElementById('nav-user');
+            
+            if (user && loginLink && userLink) {
+                loginLink.style.display = 'none';
+                userLink.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>
