@@ -35,7 +35,7 @@
     
     /* TEMA CLARO - Textos */
     --text-primary: #0F172A;
-    --text-secondary: #334155;
+    --text-secondary: #7c8797;
     --text-muted: #64748B;
     --text-inverse: #FFFFFF;
     
@@ -126,7 +126,7 @@
 }
 
 /* ============================================================
-   LOGO - MODO ESCURO (inverte para branco)
+   2.1. LOGO - MODO ESCURO (inverte para branco)
    ============================================================ */
 
 [data-theme="dark"] .navbar-logo {
@@ -458,6 +458,7 @@ a {
         display: flex;
         align-items: center;
         justify-content: center;
+        transition: all var(--transition-slow);
     }
     
     .navbar-nav {
@@ -476,7 +477,13 @@ a {
     }
     
     .navbar-nav.active {
-        display: flex;
+        display: table-header-group;
+        position: flex;
+        margin-inline: inherit;
+        margin-right: 0px;
+        max-width: fit-content;
+        border-radius: 0 0 0 var(--radius-xl);
+        transition: all var(--transition-fast);
     }
     
     .nav-link {
@@ -648,13 +655,13 @@ a {
         rgba(184, 148, 31, 0.95));
     color: var(--iasd-secondary);
     box-shadow: 
-        0 4px 20px rgba(var(--iasd-accent-rgb), 0.35),
+        0 2px 20px rgba(var(--iasd-accent-rgb), 0.15),
         inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 .btn-accent:hover {
     box-shadow: 
-        0 8px 30px rgba(var(--iasd-accent-rgb), 0.45),
+        0 8px 30px rgba(var(--iasd-accent-rgb), 0.25),
         inset 0 1px 0 rgba(255, 255, 255, 0.4);
     color: var(--iasd-secondary);
 }
