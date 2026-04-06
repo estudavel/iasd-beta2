@@ -4,8 +4,8 @@
    ============================================================ */
 
 // CONFIGURAÇÃO - SUBSTITUA COM SUAS CREDENCIAIS DO SUPABASE
-const SUPABASE_URL = 'https://seu-projeto.supabase.co';
-const SUPABASE_ANON_KEY = 'sua-chave-anon-aqui';
+const SUPABASE_URL = 'https://ljmatrsblwbglvasnflb.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqbWF0cnNibHdiZ2x2YXNuZmxiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU0MTAzNzIsImV4cCI6MjA5MDk4NjM3Mn0.KQ-yHpodAv55T8iY6GTJlUJM8tT66fa5HHmjXJd0A9w';
 
 // Inicializar cliente Supabase
 let supabase;
