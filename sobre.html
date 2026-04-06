@@ -40,7 +40,7 @@
     <nav class="navbar" role="navigation" aria-label="Navegação principal">
         <div class="navbar-container">
             <a href="index.html" class="navbar-brand">
-                <img src="https://downloads.adventistas.org/pt/wp-content/themes/pa-theme-sedes/assets/sedes/pt/default.svg" alt="IASD Logo" class="navbar-logo" style="height: 48px; width: auto;">
+                <img src="https://downloads.adventistas.org/pt/wp-content/themes/pa-theme-sedes/assets/sedes/pt/default.svg" alt="IASD Logo" class="navbar-logo" style="height: 48px; padding: 7px; width: auto;">
                 <div class="navbar-title"> <span> </span></div>
             </a>
             
@@ -106,8 +106,11 @@
                                 padding: var(--spacing-xl);
                                 color: white;
                                 box-shadow: var(--shadow-lg);">
-                            <img src="https://downloads.adventistas.org/pt/wp-content/themes/pa-theme-sedes/assets/sedes/pt/logo-iasd-vertical.svg" alt="IASD Logo" style="width: 200px; height: 200px; margin: 0 auto; display: block;">
-                        </a>
+                            <img src="https://downloads.adventistas.org/pt/wp-content/themes/pa-theme-sedes/assets/sedes/pt/logo-iasd-vertical.svg" 
+                            alt="IASD Logo" 
+                            class="logo-sobre"
+                            style="width: 200px; height: 200px; margin: auto; margin-top: -20px; display: block;">
+                            </a>
                         <h3 style="color: var(--iasd-accent); margin-top: var(--spacing-lg);">Nosso Símbolo</h3>
                         <p style="color: var(--text-primary);">
                             A cruz, a Bíblia aberta, a chama e o globo 
@@ -259,28 +262,11 @@
                     Serviço à Comunidade
                 </h2>
                 <p class="section-subtitle">
-                    A fé se expressa através de ações de amor
+                    A fé se expressa através de ações de amor e cuidado com o próximo
                 </p>
             </div>
             
             <div class="timeline">
-                <div class="timeline-item active">
-                    <div class="timeline-content">
-                        <div class="timeline-date">
-                            <i class="fas fa-heartbeat"></i> Saúde
-                        </div>
-                        <h4 class="timeline-title">Acompanhamento de Saúde</h4>
-                        <p class="timeline-description">
-                            Em parceria com estudantes de enfermagem, oferecemos 
-                            acompanhamento gratuito para idosos da comunidade, 
-                            incluindo medição de pressão arterial, glicemia e 
-                            orientações de saúde preventiva.
-                        </p>
-                        <a href="voluntariado.html#saude" class="btn btn-primary btn-sm mt-md">
-                            Solicitar Acompanhamento
-                        </a>
-                    </div>
-                </div>
                 
                 <div class="timeline-item active">
                     <div class="timeline-content">
@@ -295,23 +281,8 @@
                             para atender no seu ritmo e disponibilidade.
                         </p>
                         <a href="agendamento.html" class="btn btn-primary btn-sm mt-md">
-                            Agendar Estudo
+                            Agendar um estudo bíblico
                         </a>
-                    </div>
-                </div>
-                
-                <div class="timeline-item active">
-                    <div class="timeline-content">
-                        <div class="timeline-date">
-                            <i class="fas fa-box-open"></i> Assistência
-                        </div>
-                        <h4 class="timeline-title">Doações e Apoio Social</h4>
-                        <p class="timeline-description">
-                            Realizamos campanhas de arrecadação de alimentos, 
-                            roupas e itens de higiene para famílias em situação 
-                            de vulnerabilidade. Nossos voluntários também realizam 
-                            visitas de apoio e companheirismo.
-                        </p>
                     </div>
                 </div>
                 
@@ -328,9 +299,45 @@
                             você em momentos de necessidade.
                         </p>
                         <a href="oracoes.html" class="btn btn-primary btn-sm mt-md">
-                            Fazer Pedido
+                            Fazer um pedido de oração
                         </a>
                     </div>
+                </div>
+ 
+<div class="timeline-item active">
+                    <div class="timeline-content">
+                        <div class="timeline-date">
+                            <i class="fas fa-heartbeat"></i> Saúde
+                        </div>
+                        <h4 class="timeline-title">Acompanhamento de Saúde</h4>
+                        <p class="timeline-description">
+                            Em parceria com estudantes de enfermagem, oferecemos 
+                            acompanhamento gratuito para idosos da comunidade, 
+                            incluindo medição de pressão arterial, glicemia e 
+                            orientações de saúde preventiva.
+                        </p>
+                        <a href="voluntariado.html#saude" class="btn btn-primary btn-sm mt-md">
+                            Solicitar acompanhamento
+                        </a>
+                    </div>
+                </div>
+
+                <div class="timeline-item active">
+                    <div class="timeline-content">
+                        <div class="timeline-date">
+                            <i class="fas fa-box-open"></i> Assistência
+                        </div>
+                        <h4 class="timeline-title">Doações e Apoio Social</h4>
+                        <p class="timeline-description">
+                            Realizamos campanhas de arrecadação de alimentos, 
+                            roupas e itens de higiene para famílias em situação 
+                            de vulnerabilidade. Nossos voluntários também realizam 
+                            visitas de apoio e companheirismo.
+                        </p>
+                    </div>
+                </div>
+                
+
                 </div>
             </div>
         </div>
@@ -346,26 +353,26 @@
                             <i class="fas fa-graduation-cap"></i>
                             Projeto de Extensão Universitária
                         </h2>
-                        <p style="color: rgba(255,255,255,0.9);">
+                        <p style="color: rgba(255,255,255,0.9); font-size: var(--font-size-sm); margin:var(--spacing-sm);">
                             Este site é fruto de um projeto de extensão da disciplina 
                             <strong>"Sistemas de Informação e Sociedade"</strong>, desenvolvido 
-                            por estudantes de Sistemas de Informação em parceria com a 
-                            Igreja Adventista local.
+                            por uma estudante de Análise e Desenvolvimento de Sistemas em parceria com a 
+                            Igreja Adventista do Deus é Fiel.
                         </p>
-                        <p style="color: rgba(255,255,255,0.9);">
+                        <p style="color: rgba(255,255,255,0.9); font-size: var(--font-size-sm); margin:var(--spacing-sm);">
                             O projeto visa aplicar conhecimentos tecnológicos para 
                             beneficiar a comunidade, criando soluções acessíveis e 
                             úteis para o dia a dia da igreja.
                         </p>
                         <div class="mt-lg">
-                            <span class="badge" style="background-color: var(--iasd-accent); color: var(--iasd-secondary);">
-                                <i class="fas fa-code"></i> Desenvolvimento Web
+                            <span class="badge" style="background-color: var(--iasd-accent); color: var(--iasd-secondary); margin: var(--spacing-xs);">
+                                <i class="fas fa-code"></i> Desenvolvimento Web 
                             </span>
-                            <span class="badge" style="background-color: var(--iasd-accent); color: var(--iasd-secondary); margin-left: var(--spacing-sm);">
-                                <i class="fas fa-database"></i> Banco de Dados
+                            <span class="badge" style="background-color: var(--iasd-accent); color: var(--iasd-secondary); margin: var(--spacing-xs);">
+                                <i class="fas fa-database"></i> Banco de Dados 
                             </span>
-                            <span class="badge" style="background-color: var(--iasd-accent); color: var(--iasd-secondary); margin-left: var(--spacing-sm);">
-                                <i class="fas fa-shield-alt"></i> Segurança
+                            <span class="badge" style="background-color: var(--iasd-accent); color: var(--iasd-secondary); margin: var(--spacing-xs);">
+                                <i class="fas fa-shield-alt"></i> Segurança 
                             </span>
                         </div>
                     </div>
@@ -380,18 +387,18 @@
     <!-- SEÇÃO: CTA -->
     <section class="section">
         <div class="container text-center">
-            <h2 class="section-title">Venha Nos Conhecer!</h2>
+            <h2 class="section-title">Venha nos visitar!</h2>
             <p class="section-subtitle">
-                Você é bem-vindo em nossos cultos e atividades
+                Você é sempre bem-vindo em nossos cultos e atividades
             </p>
             <div class="btn-group justify-center mt-lg">
-                <a href="contato.html" class="btn btn-primary btn-lg">
+                <a href="contato.html" class="btn btn-secondary btn-lg">
                     <i class="fas fa-map-marker-alt"></i>
-                    Como Chegar
+                    Nossa localização
                 </a>
                 <a href="contato.html" class="btn btn-secondary btn-lg">
                     <i class="fas fa-envelope"></i>
-                    Fale Conosco
+                    Fale conosco
                 </a>
             </div>
         </div>
@@ -514,6 +521,7 @@
             showNotification(`Tema ${newTheme === 'dark' ? 'escuro' : 'claro'} ativado`, 'info');
         }
         
+
         // ============================================================
         // MODO ACESSIBILIDADE
         // ============================================================
