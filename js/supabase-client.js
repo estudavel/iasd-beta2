@@ -8,10 +8,10 @@ const SUPABASE_URL = 'https://ljmatrsblwbglvasnflb.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqbWF0cnNibHdiZ2x2YXNuZmxiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU0MTAzNzIsImV4cCI6MjA5MDk4NjM3Mn0.KQ-yHpodAv55T8iY6GTJlUJM8tT66fa5HHmjXJd0A9w';
 
 // Inicializar cliente Supabase
-let supabase;
-
+let supabaseClient;
+    
 try {
-    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
         auth: {
             autoRefreshToken: true,
             persistSession: true,
@@ -37,7 +37,7 @@ try {
 async function signUp(email, password, userData) {
     try {
         // 1. Criar usuário na autenticação
-        const { data: authData, error: authError } = await supabase.auth.signUp({
+        const { data: authData, error: authError } = await supabaseClient.auth.signUp({
             email,
             password,
         });
@@ -46,7 +46,7 @@ async function signUp(email, password, userData) {
 
         // 2. Criar perfil na tabela perfis
         if (authData.user) {
-            const { error: profileError } = await supabase
+            const { error: profileError } = await supabaseClient
                 .from('perfis')
                 .insert([{
                     id: authData.user.id,
@@ -77,7 +77,7 @@ async function signUp(email, password, userData) {
  */
 async function signIn(email, password) {
     try {
-        const { data, error } = await supabase.auth.signInWithPassword({
+        const { data, error } = await supabaseClient.auth.signInWithPassword({
             email,
             password
         });
@@ -96,7 +96,7 @@ async function signIn(email, password) {
  */
 async function signOut() {
     try {
-        const { error } = await supabase.auth.signOut();
+        const { error } = await supabaseClient.auth.signOut();
         if (error) throw error;
         
         window.location.href = 'index.html';
@@ -111,7 +111,7 @@ async function signOut() {
  */
 async function getCurrentUser() {
     try {
-        const { data: { user }, error } = await supabase.auth.getUser();
+        const { data: { user }, error } = await supabaseClient.auth.getUser();
         if (error) throw error;
         return user;
     } catch (error) {
@@ -128,7 +128,7 @@ async function getCurrentProfile() {
         const user = await getCurrentUser();
         if (!user) return null;
 
-        const { data, error } = await supabase
+        const { data, error } = await supabaseClient
             .from('perfis')
             .select('*')
             .eq('id', user.id)
@@ -163,7 +163,7 @@ async function cadastrarVoluntario(voluntarioData) {
         const user = await getCurrentUser();
         if (!user) throw new Error('Usuário não autenticado');
 
-        const { data, error } = await supabase
+        const { data, error } = await supabaseClient
             .from('voluntarios')
             .insert([{
                 perfil_id: user.id,
@@ -195,7 +195,7 @@ async function solicitarAcompanhamentoIdoso(idosoData) {
         const user = await getCurrentUser();
         if (!user) throw new Error('Usuário não autenticado');
 
-        const { data, error } = await supabase
+        const { data, error } = await supabaseClient
             .from('idosos_acompanhamento')
             .insert([{
                 perfil_id: user.id,
@@ -225,7 +225,7 @@ async function solicitarAcompanhamentoIdoso(idosoData) {
  */
 async function getAreasVoluntariado() {
     try {
-        const { data, error } = await supabase
+        const { data, error } = await supabaseClient
             .from('areas_voluntariado')
             .select('*')
             .eq('ativo', true)
@@ -252,7 +252,7 @@ async function agendarEstudo(agendamentoData) {
         const user = await getCurrentUser();
         if (!user) throw new Error('Usuário não autenticado');
 
-        const { data, error } = await supabase
+        const { data, error } = await supabaseClient
             .from('agendamentos_estudos')
             .insert([{
                 solicitante_id: user.id,
@@ -281,7 +281,7 @@ async function getMeusAgendamentos() {
         const user = await getCurrentUser();
         if (!user) throw new Error('Usuário não autenticado');
 
-        const { data, error } = await supabase
+        const { data, error } = await supabaseClient
             .from('agendamentos_estudos')
             .select('*')
             .eq('solicitante_id', user.id)
@@ -325,7 +325,7 @@ async function enviarPedidoOracao(oracaoData) {
             insertData.nome_exibicao = 'Irmão/Irmã anônimo(a)';
         }
 
-        const { data, error } = await supabase
+        const { data, error } = await supabaseClient
             .from('pedidos_oracao')
             .insert([insertData]);
 
@@ -342,7 +342,7 @@ async function enviarPedidoOracao(oracaoData) {
  */
 async function getPedidosOracaoPublicos() {
     try {
-        const { data, error } = await supabase
+        const { data, error } = await supabaseClient
             .from('pedidos_oracao')
             .select(`
                 *,
@@ -370,7 +370,7 @@ async function registrarOracao(pedidoId) {
         const user = await getCurrentUser();
         if (!user) throw new Error('Faça login para registrar sua oração');
 
-        const { data, error } = await supabase
+        const { data, error } = await supabaseClient
             .from('oracoes_pedido')
             .insert([{
                 pedido_id: pedidoId,
@@ -395,7 +395,7 @@ async function registrarOracao(pedidoId) {
  */
 async function enviarMensagemContato(mensagemData) {
     try {
-        const { data, error } = await supabase
+        const { data, error } = await supabaseClient
             .from('mensagens_contato')
             .insert([{
                 nome: mensagemData.nome,
@@ -419,7 +419,7 @@ async function enviarMensagemContato(mensagemData) {
  */
 async function getLideres() {
     try {
-        const { data, error } = await supabase
+        const { data, error } = await supabaseClient
             .from('lideres')
             .select('*')
             .eq('exibir_contato', true)
