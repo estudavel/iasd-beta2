@@ -336,6 +336,9 @@
             submitBtn.innerHTML = '<span class="loading"></span> Enviando...';
             const modalidade = document.querySelector('input[name="modalidade"]:checked').value;
             const agendamentoData = {
+                nome: document.getElementById('agendamento-nome').value,
+                email: document.getElementById('agendamento-email').value,
+                telefone: document.getElementById('agendamento-telefone').value,
                 dataPreferida: document.getElementById('agendamento-data').value,
                 horarioPreferido: document.getElementById('agendamento-horario').value,
                 modalidade: modalidade,

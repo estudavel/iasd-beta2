@@ -247,28 +247,40 @@ async function getAreasVoluntariado() {
  * Agenda um estudo bíblico
  * @param {object} agendamentoData - Dados do agendamento
  */
+/**
+ * agenda um estudo bíblico (suporta usuários anônimos e logados)
+ */
 async function agendarEstudo(agendamentoData) {
     try {
         const user = await getCurrentUser();
-        if (!user) throw new Error('Usuário não autenticado');
+        
+        // monta o pacote de dados para enviar ao banco
+        const insertData = {
+            data_preferida: agendamentoData.dataPreferida,
+            horario_preferido: agendamentoData.horarioPreferido,
+            modalidade: agendamentoData.modalidade,
+            endereco_presencial: agendamentoData.enderecoPresencial,
+            link_online: agendamentoData.linkOnline,
+            tema_interesse: agendamentoData.temaInteresse,
+            observacoes: agendamentoData.observacoes,
+            nome_solicitante: agendamentoData.nome,
+            email_solicitante: agendamentoData.email,
+            telefone_solicitante: agendamentoData.telefone
+        };
+
+        // se a pessoa estiver logada, vincula o agendamento à conta dela
+        if (user) {
+            insertData.solicitante_id = user.id;
+        }
 
         const { data, error } = await supabaseClient
             .from('agendamentos_estudos')
-            .insert([{
-                solicitante_id: user.id,
-                data_preferida: agendamentoData.dataPreferida,
-                horario_preferido: agendamentoData.horarioPreferido,
-                modalidade: agendamentoData.modalidade,
-                endereco_presencial: agendamentoData.enderecoPresencial,
-                link_online: agendamentoData.linkOnline,
-                tema_interesse: agendamentoData.temaInteresse,
-                observacoes: agendamentoData.observacoes
-            }]);
+            .insert([insertData]);
 
         if (error) throw error;
         return { success: true, data };
     } catch (error) {
-        console.error('Erro ao agendar estudo:', error);
+        console.error('erro ao agendar estudo:', error);
         return { success: false, error: error.message };
     }
 }
