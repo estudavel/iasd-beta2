@@ -111,11 +111,11 @@ async function signOut() {
  */
 async function getCurrentUser() {
     try {
-        const { data: { user }, error } = await supabaseClient.auth.getUser();
+        // usar getsession em vez de getuser evita o erro vermelho no console para visitantes
+        const { data: { session }, error } = await supabaseClient.auth.getSession();
         if (error) throw error;
-        return user;
+        return session ? session.user : null;
     } catch (error) {
-        console.error('Erro ao obter usuário:', error);
         return null;
     }
 }

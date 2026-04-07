@@ -16,7 +16,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 </head>
 <body>
-    <!-- BOTÕES FLUTUANTES -->
     <div class="floating-buttons">
         <button class="floating-btn theme-toggle" id="themeToggle" onclick="toggleThemeManual()" data-tooltip="Alternar Tema">
             <i class="fas fa-moon"></i>
@@ -52,8 +51,8 @@
             <div class="card" style="max-width: 450px; margin: 0 auto;">
                 <div class="text-center mb-lg">
                     <img src="https://static.wikia.nocookie.net/logopedia/images/7/72/IASD_%281997%29.png" alt="IASD Logo" style="width: 80px; height: auto; margin-bottom: var(--spacing-md);">
-                    <h2 class="card-title" style="justify-content: center;"><i class="fas fa-sign-in-alt text-primary"></i> Login</h2>
-                    <p class="card-subtitle">Acesse sua conta da IASD</p>
+                    <h2 class="card-title" style="justify-content: center;" id="form-titulo"><i class="fas fa-sign-in-alt text-primary"></i> Login</h2>
+                    <p class="card-subtitle" id="form-subtitulo">Acesse sua conta da IASD</p>
                 </div>
                 
                 <form id="form-login" onsubmit="submitLogin(event)">
@@ -70,12 +69,38 @@
                     </button>
                 </form>
                 
-                <div class="text-center mt-lg">
+                <div class="text-center mt-lg" id="login-footer">
                     <p style="color: var(--iasd-text-light);">Ainda não tem conta?</p>
-                    <a href="#" class="btn btn-secondary" onclick="showRegister()">
+                    <a href="#" class="btn btn-secondary" onclick="showRegister(event)">
                         <i class="fas fa-user-plus"></i> Criar Conta
                     </a>
                 </div>
+
+                <form id="form-register" onsubmit="submitRegister(event)" style="display: none;">
+                    <div class="form-group">
+                        <label class="form-label" for="reg-nome">Nome Completo <span class="required">*</span></label>
+                        <input type="text" id="reg-nome" class="form-input" required placeholder="Seu nome">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="reg-email">E-mail <span class="required">*</span></label>
+                        <input type="email" id="reg-email" class="form-input" required placeholder="seu@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="reg-senha">Senha <span class="required">*</span></label>
+                        <input type="password" id="reg-senha" class="form-input" required placeholder="Mínimo 6 caracteres" minlength="6">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
+                        <i class="fas fa-user-plus"></i> Finalizar Cadastro
+                    </button>
+                    
+                    <div class="text-center mt-lg">
+                        <p style="color: var(--iasd-text-light);">Já tem uma conta?</p>
+                        <a href="#" class="btn btn-secondary" onclick="showLogin(event)">
+                            <i class="fas fa-arrow-left"></i> Voltar para Login
+                        </a>
+                    </div>
+                </form>
+
             </div>
         </div>
     </section>
@@ -198,8 +223,29 @@
                 document.body.classList.add('accessibility-mode');
                 document.getElementById('accessibilityToggle')?.classList.add('active');
             }
+            checkAuth();
         });
         
+        // funções para alternar entre as telas
+        function showRegister(event) {
+            if(event) event.preventDefault();
+            document.getElementById('form-login').style.display = 'none';
+            document.getElementById('login-footer').style.display = 'none';
+            document.getElementById('form-titulo').innerHTML = '<i class="fas fa-user-plus text-primary"></i> Criar Conta';
+            document.getElementById('form-subtitulo').innerText = 'Junte-se à nossa comunidade';
+            document.getElementById('form-register').style.display = 'block';
+        }
+
+        function showLogin(event) {
+            if(event) event.preventDefault();
+            document.getElementById('form-register').style.display = 'none';
+            document.getElementById('form-titulo').innerHTML = '<i class="fas fa-sign-in-alt text-primary"></i> Login';
+            document.getElementById('form-subtitulo').innerText = 'Acesse sua conta da IASD';
+            document.getElementById('form-login').style.display = 'block';
+            document.getElementById('login-footer').style.display = 'block';
+        }
+        
+        // envio de login
         async function submitLogin(event) {
             event.preventDefault();
             const submitBtn = event.target.querySelector('button[type="submit"]');
@@ -222,9 +268,34 @@
                 submitBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Entrar';
             }
         }
-        
-        function showRegister() {
-            showNotification('Cadastro em breve disponível!', 'info');
+
+        // envio de cadastro
+        async function submitRegister(event) {
+            event.preventDefault();
+            const submitBtn = event.target.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="loading"></span> Cadastrando...';
+
+            const nome = document.getElementById('reg-nome').value;
+            const email = document.getElementById('reg-email').value;
+            const senha = document.getElementById('reg-senha').value;
+
+            try {
+                const resultado = await signUp(email, senha, { nomeCompleto: nome });
+
+                if (resultado.success) {
+                    showNotification('Cadastro realizado! Você já pode fazer login.', 'success');
+                    event.target.reset();
+                    showLogin(); // volta para a tela de login
+                } else {
+                    throw new Error(resultado.error);
+                }
+            } catch (error) {
+                showNotification('Erro ao criar conta: ' + error.message, 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-user-plus"></i> Finalizar Cadastro';
+            }
         }
     </script>
 </body>
