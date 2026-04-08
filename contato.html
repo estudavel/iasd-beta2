@@ -114,19 +114,20 @@
                     
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title"><i class="fas fa-phone-alt text-primary"></i> Contatos</h3>
+                            <h3 class="card-title"><i class="fas fa-phone text-primary"></i> Contatos</h3>
                         </div>
                         <div style="padding: var(--spacing-md) 0;">
-                            <p><i class="fas fa-phone text-primary"></i> <strong>Telefone:</strong> (11) 9999-9999</p>
                             <p><i class="fab fa-whatsapp text-success"></i> <strong>WhatsApp:</strong> (11) 99999-9999</p>
+                            <p><i class="fas fa-phone text-primary"></i> <strong>Telefone:</strong> (11) 9999-9999</p>
                             <p><i class="fas fa-envelope text-primary"></i> <strong>E-mail:</strong> contato@iasdlocal.org</p>
                         </div>
-                        <div class="mt-md text-center">
-                            <a href="https://wa.me/5511999999999" class="btn btn-success" target="_blank">
+                        <div class="text-center" style="margin-top: 15px;">
+                            <a href="https://wa.me/5511999999999" class="btn" style="background-color: #25D366; border-color: #25D366; width: 100%; color: white !important;">
                                 <i class="fab fa-whatsapp"></i> Falar no WhatsApp
                             </a>
                         </div>
                     </div>
+                    
                 </div>
             </div>
         </div>
@@ -273,6 +274,7 @@
             const submitBtn = event.target.querySelector('button[type="submit"]');
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<span class="loading"></span> Enviando...';
+            
             const contatoData = {
                 nome: document.getElementById('contato-nome').value,
                 email: document.getElementById('contato-email').value,
@@ -280,17 +282,25 @@
                 assunto: document.getElementById('contato-assunto').value,
                 mensagem: document.getElementById('contato-mensagem').value
             };
+
             try {
-                await new Promise(resolve => setTimeout(resolve, 1500));
-                showNotification('Mensagem enviada com sucesso! Entraremos em contato.', 'success');
-                event.target.reset();
+                // chama a função real que está no supabase-client.js
+                const resultado = await enviarMensagemContato(contatoData);
+                if (resultado.success) {
+                    showNotification('Mensagem enviada com sucesso! Entraremos em contato.', 'success');
+                    event.target.reset();
+                } else {
+                    throw new Error(resultado.error);
+                }
             } catch (error) {
-                showNotification('Erro ao enviar mensagem. Tente novamente.', 'error');
+                showNotification('Erro ao enviar mensagem: ' + error.message, 'error');
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar Mensagem';
             }
         }
+
+
     </script>
 </body>
 </html>
