@@ -110,10 +110,23 @@
 
     <section class="section">
         <div class="container">
+
             <div class="section-header">
+            <h2 class="section-title"><i class="fas fa-list"></i> Pedidos de Oração</h2>
+            <p class="section-subtitle">Ore por nossos irmãos e irmãs</p>
+        </div>
+        
+        <div id="container-filtros" class="btn-group mb-lg justify-center" style="gap: 5px; flex-wrap: wrap; display: none;">
+        </div>
+
+        <div id="lista-pedidos">
+            <div class="spinner-container">
+
+            <!-- <div class="section-header">
                 <h2 class="section-title"><i class="fas fa-list"></i> Pedidos de Oração</h2>
                 <p class="section-subtitle">Ore por nossos irmãos e irmãs</p>
             </div>
+            
             <div class="btn-group justify-center mb-lg">
                 <button class="btn btn-sm btn-primary" onclick="filtrarPedidos('todos')">Todos</button>
                     <button class="btn btn-sm btn-secondary" onclick="filtrarPedidos('saude')">Saúde</button>
@@ -126,7 +139,8 @@
                     <div class="spinner"></div>
                     <p class="spinner-text">Carregando pedidos...</p>
                 </div>
-            </div>
+            </div> -->
+        
         </div>
     </section>
 
@@ -352,6 +366,105 @@
             event.target.closest('.btn').classList.remove('btn-secondary');
             event.target.closest('.btn').classList.add('btn-primary', 'active');
         }
+
+        // 1. variável global para guardar os pedidos e não precisar buscar no banco toda hora
+        let pedidosGlobal = [];
+        
+        async function carregarPedidos() {
+            const container = document.getElementById('lista-pedidos');
+            const containerFiltros = document.getElementById('container-filtros');
+            
+            try {
+                const resultado = await getPedidosOracaoPublicos();
+                if (!resultado.success) {
+                    container.innerHTML = '<div class="alert alert-info"><i class="fas fa-info-circle alert-icon"></i><div>O mural estará disponível em breve.</div></div>';
+                    return;
+                }
+                
+                pedidosGlobal = resultado.data || [];
+                
+                if (pedidosGlobal.length === 0) {
+                    containerFiltros.style.display = 'none';
+                    container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🙏</div><h3 class="empty-state-title">Nenhum pedido ainda</h3><p class="empty-state-description">Seja o primeiro a compartilhar!</p></div>';
+                    return;
+                }
+
+                // 2. mágica: descobrir quais categorias únicas existem nos pedidos que chegaram
+                const categoriasExistem = [...new Set(pedidosGlobal.map(p => p.categoria))];
+                
+                const nomesCat = {
+                    geral: 'Geral', saude: 'Saúde', familia: 'Família', 
+                    trabalho: 'Trabalho', financeiro: 'Financeiro', 
+                    espiritual: 'Espiritual', outros: 'Outros'
+                };
+
+                // 3. montar os botões dinamicamente
+                let botoesHTML = `<button class="btn btn-sm btn-primary active" onclick="filtrarPedidos('todos', this)">Todos</button>`;
+                
+                categoriasExistem.forEach(cat => {
+                    if(cat) {
+                        botoesHTML += `<button class="btn btn-sm btn-secondary" onclick="filtrarPedidos('${cat}', this)">${nomesCat[cat]}</button>`;
+                    }
+                });
+
+                containerFiltros.innerHTML = botoesHTML;
+                containerFiltros.style.display = 'flex'; // mostra a barra
+
+                // 4. desenha os cards na tela
+                renderizarCards(pedidosGlobal);
+                
+            } catch (error) {
+                container.innerHTML = '<div class="alert alert-info"><i class="fas fa-info-circle alert-icon"></i><div>O mural estará disponível em breve.</div></div>';
+            }
+        }
+        
+        // função separada só para desenhar os cards (facilita o filtro)
+        function renderizarCards(pedidos) {
+            const container = document.getElementById('lista-pedidos');
+            
+            if (pedidos.length === 0) {
+                container.innerHTML = '<div class="empty-state"><h3 class="empty-state-title">Nenhum pedido nesta categoria.</h3></div>';
+                return;
+            }
+
+            container.innerHTML = pedidos.map(pedido => `
+                <div class="oracao-card ${pedido.nivel_privacidade}">
+                    <div class="oracao-header">
+                        <h3 class="oracao-titulo">${pedido.titulo}</h3>
+                        <div class="oracao-meta">
+                            <span class="badge badge-primary">${pedido.categoria}</span>
+                            <span class="oracao-autor"><i class="fas fa-user"></i> ${pedido.nome_exibicao || 'Membro'}</span>
+                            <span class="oracao-data"><i class="fas fa-calendar"></i> ${formatarData(pedido.created_at)}</span>
+                        </div>
+                    </div>
+                    <p class="oracao-conteudo">${pedido.conteudo}</p>
+                    <div class="oracao-footer">
+                        <div class="oracao-contador"><i class="fas fa-pray"></i> <strong>${pedido.contador_oracoes || 0}</strong> orando</div>
+                        <button class="btn-orar" onclick="orarPor('${pedido.id}', this)"><i class="fas fa-hands"></i> Eu Vou Orar</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // agora o filtro funciona de verdade!
+        function filtrarPedidos(categoria, btnElement) {
+            // muda as cores dos botões
+            document.querySelectorAll('#container-filtros .btn').forEach(btn => {
+                btn.classList.remove('btn-primary', 'active');
+                btn.classList.add('btn-secondary');
+            });
+            btnElement.classList.remove('btn-secondary');
+            btnElement.classList.add('btn-primary', 'active');
+
+            // filtra a lista e chama o desenho na tela
+            if (categoria === 'todos') {
+                renderizarCards(pedidosGlobal);
+            } else {
+                const filtrados = pedidosGlobal.filter(p => p.categoria === categoria);
+                renderizarCards(filtrados);
+            }
+        }
+
     </script>
 </body>
 </html>

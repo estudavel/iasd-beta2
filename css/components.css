@@ -526,7 +526,8 @@
     top: 0;
     bottom: 0;
     width: 2px;
-    background: linear-gradient(180deg, var(--iasd-primary), var(--iasd-accent));
+    /* o gradiente agora começa invisível (0%), ganha cor (15% a 85%) e some no final (100%) */
+    background: linear-gradient(180deg, transparent 0%, var(--iasd-primary) 15%, var(--iasd-accent) 85%, transparent 100%);
     border-radius: var(--radius-full);
 }
 
@@ -539,7 +540,7 @@
     content: '';
     position: absolute;
     left: -24px;
-    top: 4px;
+    top: 40%;
     width: 12px;
     height: 12px;
     border-radius: 50%;

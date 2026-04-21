@@ -52,7 +52,7 @@
                 <li><a href="voluntariado.html" class="nav-link">Voluntariado</a></li>
                 <li><a href="agendamento.html" class="nav-link">Estudos</a></li>
                 <li><a href="oracoes.html" class="nav-link">Orações</a></li>
-                <li><a href="contato.html" class="nav-link">Contato</a></li>
+                <li><a href="contato.html" class="nav-link">Contato</a></li>    <br>
                 <li id="nav-login"><a href="login.html" class="nav-link"><i class="fas fa-sign-in-alt"></i> Entrar</a></li>
                 <li id="nav-user" style="display: none;">
                     <a href="#" class="nav-link" onclick="signOut()"><i class="fas fa-sign-out-alt"></i> Sair</a>
@@ -87,7 +87,115 @@
         </div>
     </header>
 
-    <!-- SEÇÃO DE RECURSOS -->
+     
+
+    <!-- SEÇÃO: PRÓXIMOS EVENTOS -->
+    <section class="section section-alt">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Programação da Semana</h2>
+                <p class="section-subtitle">
+                    Participe de nossos cultos e atividades
+                </p>
+            </div>
+            
+            <div class="grid grid-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-sun text-primary"></i>
+                            Escola Sabatina
+                        </h3>
+                        <p class="card-subtitle">Sábados às 9h30</p>
+                    </div>
+                    <p>Estudo bíblico em grupos para todas as idades. Venha aprender mais sobre a Palavra de Deus.</p>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-church text-primary"></i>
+                            Culto de Adoração
+                        </h3>
+                        <p class="card-subtitle">Sábados às 11h <br>Domingos e Quartas às 19h30</p>
+                    </div>
+                    <p>Cultos principais da semana com louvor, oração e pregação da Palavra.</p>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-users text-primary"></i>
+                            Pequenos Grupos
+                        </h3>
+                        <p class="card-subtitle">Sextas-feiras às 19h30</p>
+                    </div>
+                    <p>Grupos de estudo e comunhão em diferentes bairros. Entre em contato para participar.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+
+    <!-- SEÇÃO: PEDIDOS DE ORAÇÃO RECENTES -->
+    <section class="section section-alt">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-pray"></i>
+                    Pedidos de Oração Recentes
+                </h2>
+                <p class="section-subtitle">
+                    Ore por nossos irmãos e irmãs. Seu apoio espiritual faz a diferença!
+                </p>
+            </div>
+            
+            <div id="pedidos-recentes">
+                <div class="spinner-container">
+                    <div class="spinner"></div>
+                    <p class="spinner-text">Carregando pedidos...</p>
+                </div>
+            </div>
+            <br>
+            <div class="text-center mt-xl">
+                <a href="oracoes.html" class="btn btn-primary btn-lg">
+                    <i class="fas fa-list"></i>
+                    Ver todos os pedidos
+                </a>
+            </div>
+        </div>
+    </section>
+
+<!-- SEÇÃO DE DESTAQUE: AJUDA RÁPIDA -->
+    <section class="section" style="background: linear-gradient(135deg, rgba(var(--iasd-secondary-rgb), 0.95) 0%, rgba(var(--iasd-primary-rgb), 0.95) 100%); position: relative; overflow: hidden;">
+        <div style="position: absolute; inset: 0; background: radial-gradient(circle at 80% 20%, rgba(var(--iasd-accent-rgb), 0.15) 0%, transparent 50%);"></div>
+        <div class="container" style="position: relative; z-index: 1;">
+            <div class="grid grid-2" style="align-items: center;">
+                <div>
+                    <h2 style="color: white; font-size: var(--font-size-3xl); margin-bottom: var(--spacing-md);">
+                        <i class="fas fa-phone-volume"></i>
+                        Precisa de ajuda?
+                    </h2>
+                    <p style="color: rgba(255,255,255,0.9); font-size: var(--font-size-lg); margin-bottom: var(--spacing-lg);">
+                        Nossa equipe de líderes está disponível para atender você. 
+                        Entre em contato pelo WhatsApp ou preenchendo o formulário.
+                    </p>
+                    <div style="display: flex; flex-wrap: wrap; gap: var(--spacing-md);">
+                        <a href="https://wa.me/5511999999999" class="btn btn-accent btn-lg">
+                            <i class="fab fa-whatsapp" style="-webkit-text-stroke: 0.5px currentColor; font-size: 1.2rem; vertical-align: middle;"></i> Falar no WhatsApp
+                        </a>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <i class="fas fa-hands-helping" style="font-size: 10rem; opacity: 0.2; color: white;"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+  <!-- SEÇÃO DE RECURSOS -->
     <section class="section section-alt">
         <div class="container">
             <div class="section-header">
@@ -161,89 +269,17 @@
         </div>
     </section>
 
-    <!-- SEÇÃO DE DESTAQUE: AJUDA RÁPIDA -->
-    <section class="section" style="background: linear-gradient(135deg, rgba(var(--iasd-secondary-rgb), 0.95) 0%, rgba(var(--iasd-primary-rgb), 0.95) 100%); position: relative; overflow: hidden;">
-        <div style="position: absolute; inset: 0; background: radial-gradient(circle at 80% 20%, rgba(var(--iasd-accent-rgb), 0.15) 0%, transparent 50%);"></div>
-        <div class="container" style="position: relative; z-index: 1;">
-            <div class="grid grid-2" style="align-items: center;">
-                <div>
-                    <h2 style="color: white; font-size: var(--font-size-3xl); margin-bottom: var(--spacing-md);">
-                        <i class="fas fa-phone-volume"></i>
-                        Precisa de ajuda urgente?
-                    </h2>
-                    <p style="color: rgba(255,255,255,0.9); font-size: var(--font-size-lg); margin-bottom: var(--spacing-lg);">
-                        Nossa equipe de líderes está disponível para atender você. 
-                        Entre em contato pelo telefone, WhatsApp ou preenchendo o formulário.
-                    </p>
-                    <div style="display: flex; flex-wrap: wrap; gap: var(--spacing-md);">
-                        <a href="tel:+5511999999999" class="btn btn-accent btn-lg">
-                            <i class="fas fa-phone"></i>
-                            Ligar Agora
-                        </a>
-                        <a href="contato.html" class="glass-btn btn-lg" style="color: rgba(var(--iasd-secondary-rgb), 0.95); border-color: rgba(255,255,255,0.3);">
-                            <i class="fas fa-envelope"></i>
-                            Enviar Mensagem
-                        </a>
-                    </div>
-                </div>
-                <div class="text-center">
-                    <i class="fas fa-hands-helping" style="font-size: 10rem; opacity: 0.2; color: white;"></i>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- SEÇÃO: PRÓXIMOS EVENTOS -->
+    <!-- SEÇÃO: ESTATÍSTICAS -->
+    
     <section class="section section-alt">
         <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Programação da Semana</h2>
-                <p class="section-subtitle">
-                    Participe de nossos cultos e atividades
-                </p>
-            </div>
-            
-            <div class="grid grid-3">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">
-                            <i class="fas fa-sun text-primary"></i>
-                            Escola Sabatina
-                        </h3>
-                        <p class="card-subtitle">Sábados às 9h30</p>
-                    </div>
-                    <p>Estudo bíblico em grupos para todas as idades. Venha aprender mais sobre a Palavra de Deus.</p>
-                </div>
-                
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">
-                            <i class="fas fa-church text-primary"></i>
-                            Culto de Adoração
-                        </h3>
-                        <p class="card-subtitle">Sábados às 11h <br>Domingos e Quartas às 19h30</p>
-                    </div>
-                    <p>Cultos principais da semana com louvor, oração e pregação da Palavra.</p>
-                </div>
-                
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">
-                            <i class="fas fa-users text-primary"></i>
-                            Pequenos Grupos
-                        </h3>
-                        <p class="card-subtitle">Sextas-feiras às 19h30</p>
-                    </div>
-                    <p>Grupos de estudo e comunhão em diferentes bairros. Entre em contato para participar.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- SEÇÃO: ESTATÍSTICAS -->
-    <section class="section">
-        <div class="container">
             <div class="grid grid-4 text-center">
+                <h2 class="section-title" style="grid-column: span 4; margin-bottom: var(--spacing-lg);">
+                    <i class="fas fa-chart-bar"></i>
+                    Nossos Impactos
+                </h2>
+
+                
                 <div class="card" style="padding: var(--spacing-lg);">
                     <div style="font-size: var(--font-size-3xl); color: var(--iasd-primary); font-weight: 700;">
                         <i class="fas fa-users"></i> 30+
@@ -268,35 +304,6 @@
                     </div>
                     <p style="color: var(--iasd-text-light); font-size: var(--font-size-sm);">Estudos Realizados</p>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- SEÇÃO: PEDIDOS DE ORAÇÃO RECENTES -->
-    <section class="section section-alt">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">
-                    <i class="fas fa-pray"></i>
-                    Pedidos de Oração Recentes
-                </h2>
-                <p class="section-subtitle">
-                    Ore por nossos irmãos e irmãs. Seu apoio espiritual faz a diferença!
-                </p>
-            </div>
-            
-            <div id="pedidos-recentes">
-                <div class="spinner-container">
-                    <div class="spinner"></div>
-                    <p class="spinner-text">Carregando pedidos...</p>
-                </div>
-            </div>
-            
-            <div class="text-center mt-xl">
-                <a href="oracoes.html" class="btn btn-primary btn-lg">
-                    <i class="fas fa-list"></i>
-                    Ver todos os pedidos
-                </a>
             </div>
         </div>
     </section>

@@ -729,9 +729,9 @@ a {
     bottom: -8px;
     left: 50%;
     transform: translateX(-50%);
-    width: 50px;
-    height: 3px;
-    background: linear-gradient(90deg, var(--iasd-primary), var(--iasd-accent));
+    width: 75px;
+    height: 2.5px;
+    background: linear-gradient(90deg, transparent 0%, var(--iasd-primary) 25%, var(--iasd-accent) 75%, transparent 100%);
     border-radius: var(--radius-full);
 }
 
@@ -1380,4 +1380,24 @@ a {
 .iasd-text-light,
 [style*="--iasd-text-light"] {
     color: var(--text-muted);
+}
+
+/* ============================================================
+   CORREÇÃO DE BLOQUEIO DE CLIQUES (POINTER EVENTS)
+   ============================================================ */
+.feature-card::before, 
+.feature-card::after,
+.card::before,
+.card::after,
+.btn::before,
+.btn::after {
+    pointer-events: none;
+}
+
+.feature-card a, 
+.feature-card button,
+.card a,
+.card button {
+    position: relative;
+    z-index: 10;
 }

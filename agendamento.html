@@ -292,17 +292,22 @@
         }
         
         function toggleModalidadeFields() {
-            const modalidade = document.querySelector('input[name="modalidade"]:checked').value;
+            // garante que ele pega o valor exato que o usuário selecionou naquele momento
+            const modalidadeAtiva = document.querySelector('input[name="modalidade"]:checked').value;
             const enderecoField = document.getElementById('endereco-field');
             const linkField = document.getElementById('link-field');
-            if (modalidade === 'presencial') {
+            const enderecoInput = document.getElementById('agendamento-endereco');
+            
+            if (modalidadeAtiva === 'presencial') {
                 enderecoField.style.display = 'block';
                 linkField.style.display = 'none';
-                document.getElementById('agendamento-endereco').required = true;
+                enderecoInput.required = true;
             } else {
                 enderecoField.style.display = 'none';
                 linkField.style.display = 'block';
-                document.getElementById('agendamento-endereco').required = false;
+                enderecoInput.required = false;
+                // remove qualquer erro de validação que possa ter travado o envio
+                enderecoInput.value = ''; 
             }
         }
         
