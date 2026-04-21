@@ -1,6 +1,6 @@
 # 🏛️ IASD - projeto de extensão universitária (beta 2)
 
-sistema web desenvolvido para a Igreja Adventista do Sétimo Dia (IASD) como projeto de extensão focado na comunidade. esta é a versão **beta 2** do repositório.
+sistema web desenvolvido para a Igreja Adventista do Sétimo Dia (IASD) do bairro "Deus É Fiel" de Toritama/PE, como projeto de extensão focado na comunidade. esta é a versão **beta 2** do repositório.
 
 ## 📋 sumário
 
